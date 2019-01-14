@@ -98,7 +98,7 @@ node_editor_find(node_editor_ *editor, int ID)
 
 static void
 node_editor_add(node_editor_ *editor, const(char) *name, nk_rect bounds,
-				nk_color col, int in_count, int out_count)
+                nk_color col, int in_count, int out_count)
 {
     static int IDs = 0;
     node *node;
@@ -117,7 +117,7 @@ node_editor_add(node_editor_ *editor, const(char) *name, nk_rect bounds,
 
 static void
 node_editor_link(node_editor_ *editor, int in_id, int in_slot,
-				 int out_id, int out_slot)
+                 int out_id, int out_slot)
 {
     node_link *link;
     assert(cast(nk_size)editor.link_count < editor.links.length);
@@ -158,7 +158,7 @@ node_editor(nk_context *ctx)
     }
 
     if (nk_begin(ctx, "NodeEdit", nk_rect(0, 0, 800, 600),
-				 NK_WINDOW_BORDER|NK_WINDOW_NO_SCROLLBAR|NK_WINDOW_MOVABLE|NK_WINDOW_CLOSABLE))
+                 NK_WINDOW_BORDER|NK_WINDOW_NO_SCROLLBAR|NK_WINDOW_MOVABLE|NK_WINDOW_CLOSABLE))
     {
         /* allocate complete window space */
         canvas = nk_window_get_canvas(ctx);
@@ -184,7 +184,7 @@ node_editor(nk_context *ctx)
             while (it) {
                 /* calculate scrolled node window position and size */
                 nk_layout_space_push(ctx, nk_rect(it.bounds.x - nodedit.scrolling.x,
-												  it.bounds.y - nodedit.scrolling.y, it.bounds.w, it.bounds.h));
+                                                  it.bounds.y - nodedit.scrolling.y, it.bounds.w, it.bounds.h));
 
                 /* execute node window */
                 if (nk_group_begin(ctx, it.name.ptr, NK_WINDOW_MOVABLE|NK_WINDOW_NO_SCROLLBAR|NK_WINDOW_BORDER|NK_WINDOW_TITLE))
@@ -194,7 +194,7 @@ node_editor(nk_context *ctx)
                     node_panel = nk_window_get_panel(ctx);
                     if (nk_input_mouse_clicked(in_, NK_BUTTON_LEFT, node_panel.bounds) &&
                         (!(it.prev && nk_input_mouse_clicked(in_, NK_BUTTON_LEFT,
-															  nk_layout_space_rect_to_screen(ctx, node_panel.bounds)))) &&
+                                                              nk_layout_space_rect_to_screen(ctx, node_panel.bounds)))) &&
                         nodedit.end != it)
                     {
                         updated = it;
@@ -239,11 +239,11 @@ node_editor(nk_context *ctx)
                         /* draw curve from linked node slot to mouse position */
                         if (nodedit.linking.active && nodedit.linking.node_ == it &&
                             nodedit.linking.input_slot == n) {
-								nk_vec2 l0 = nk_vec2(circle.x + 3, circle.y + 3);
-								nk_vec2 l1 = in_.mouse.pos;
-								nk_stroke_curve(canvas, l0.x, l0.y, l0.x + 50.0f, l0.y,
-												l1.x - 50.0f, l1.y, l1.x, l1.y, 1.0f, nk_rgb(100, 100, 100));
-							}
+                                nk_vec2 l0 = nk_vec2(circle.x + 3, circle.y + 3);
+                                nk_vec2 l1 = in_.mouse.pos;
+                                nk_stroke_curve(canvas, l0.x, l0.y, l0.x + 50.0f, l0.y,
+                                                l1.x - 50.0f, l1.y, l1.x, l1.y, 1.0f, nk_rgb(100, 100, 100));
+                            }
                     }
 
                     /* input connector */
@@ -257,10 +257,10 @@ node_editor(nk_context *ctx)
                         if (nk_input_is_mouse_released(in_, NK_BUTTON_LEFT) &&
                             nk_input_is_mouse_hovering_rect(in_, circle) &&
                             nodedit.linking.active && nodedit.linking.node_ != it) {
-								nodedit.linking.active = nk_false;
-								node_editor_link(nodedit, nodedit.linking.input_id,
-												 nodedit.linking.input_slot, it.ID, n);
-							}
+                                nodedit.linking.active = nk_false;
+                                node_editor_link(nodedit, nodedit.linking.input_id,
+                                                 nodedit.linking.input_slot, it.ID, n);
+                            }
                     }
                 }
                 it = it.next;
@@ -281,16 +281,16 @@ node_editor(nk_context *ctx)
                 float spacei = node_panel.bounds.h / cast(float)((ni.output_count) + 1);
                 float spaceo = node_panel.bounds.h / cast(float)((no.input_count) + 1);
                 nk_vec2 l0 = nk_layout_space_to_screen(ctx,
-															  nk_vec2(ni.bounds.x + ni.bounds.w, 3.0f + ni.bounds.y + spacei * cast(float)(link.input_slot+1)));
+                                                              nk_vec2(ni.bounds.x + ni.bounds.w, 3.0f + ni.bounds.y + spacei * cast(float)(link.input_slot+1)));
                 nk_vec2 l1 = nk_layout_space_to_screen(ctx,
-															  nk_vec2(no.bounds.x, 3.0f + no.bounds.y + spaceo * cast(float)(link.output_slot+1)));
+                                                              nk_vec2(no.bounds.x, 3.0f + no.bounds.y + spaceo * cast(float)(link.output_slot+1)));
 
                 l0.x -= nodedit.scrolling.x;
                 l0.y -= nodedit.scrolling.y;
                 l1.x -= nodedit.scrolling.x;
                 l1.y -= nodedit.scrolling.y;
                 nk_stroke_curve(canvas, l0.x, l0.y, l0.x + 50.0f, l0.y,
-								l1.x - 50.0f, l1.y, l1.x, l1.y, 1.0f, nk_rgb(100, 100, 100));
+                                l1.x - 50.0f, l1.y, l1.x, l1.y, 1.0f, nk_rgb(100, 100, 100));
             }
 
             if (updated) {
@@ -320,7 +320,7 @@ node_editor(nk_context *ctx)
                 nk_layout_row_dynamic(ctx, 25, 1);
                 if (nk_contextual_item_label(ctx, "New", NK_TEXT_CENTERED))
                     node_editor_add(nodedit, "New", nk_rect(400, 260, 180, 220),
-									nk_rgb(255, 255, 255), 1, 2);
+                                    nk_rgb(255, 255, 255), 1, 2);
                 if (nk_contextual_item_label(ctx, grid_option[nodedit.show_grid],NK_TEXT_CENTERED))
                     nodedit.show_grid = !nodedit.show_grid;
                 nk_contextual_end(ctx);
@@ -331,9 +331,9 @@ node_editor(nk_context *ctx)
         /* window content scrolling */
         if (nk_input_is_mouse_hovering_rect(in_, nk_window_get_bounds(ctx)) &&
             nk_input_is_mouse_down(in_, NK_BUTTON_MIDDLE)) {
-				nodedit.scrolling.x += in_.mouse.delta.x;
-				nodedit.scrolling.y += in_.mouse.delta.y;
-			}
+                nodedit.scrolling.x += in_.mouse.delta.x;
+                nodedit.scrolling.y += in_.mouse.delta.y;
+            }
     }
     nk_end(ctx);
     return !nk_window_is_closed(ctx, "NodeEdit");

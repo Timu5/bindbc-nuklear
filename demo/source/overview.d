@@ -68,53 +68,53 @@ overview(nk_context *ctx)
             nk_layout_row_push(ctx, 60);
             if (nk_menu_begin_label(ctx, "ADVANCED", NK_TEXT_LEFT, nk_vec2(200, 600)))
             {
-			enum menu_state {MENU_NONE,MENU_FILE, MENU_EDIT,MENU_VIEW,MENU_CHART}
-			static menu_state menu_state_ = menu_state.MENU_NONE;
-			nk_collapse_states state;
+            enum menu_state {MENU_NONE,MENU_FILE, MENU_EDIT,MENU_VIEW,MENU_CHART}
+            static menu_state menu_state_ = menu_state.MENU_NONE;
+            nk_collapse_states state;
 
-			state = (menu_state_ == menu_state.MENU_FILE) ? NK_MAXIMIZED: NK_MINIMIZED;
-			if (nk_tree_state_push(ctx, NK_TREE_TAB, "FILE", &state)) {
-			menu_state_ =menu_state. MENU_FILE;
-			nk_menu_item_label(ctx, "New", NK_TEXT_LEFT);
-			nk_menu_item_label(ctx, "Open", NK_TEXT_LEFT);
-			nk_menu_item_label(ctx, "Save", NK_TEXT_LEFT);
-			nk_menu_item_label(ctx, "Close", NK_TEXT_LEFT);
-			nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT);
-			nk_tree_pop(ctx);
-			} else menu_state_ = (menu_state_ == menu_state.MENU_FILE) ? menu_state.MENU_NONE: menu_state_;
+            state = (menu_state_ == menu_state.MENU_FILE) ? NK_MAXIMIZED: NK_MINIMIZED;
+            if (nk_tree_state_push(ctx, NK_TREE_TAB, "FILE", &state)) {
+            menu_state_ =menu_state. MENU_FILE;
+            nk_menu_item_label(ctx, "New", NK_TEXT_LEFT);
+            nk_menu_item_label(ctx, "Open", NK_TEXT_LEFT);
+            nk_menu_item_label(ctx, "Save", NK_TEXT_LEFT);
+            nk_menu_item_label(ctx, "Close", NK_TEXT_LEFT);
+            nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT);
+            nk_tree_pop(ctx);
+            } else menu_state_ = (menu_state_ == menu_state.MENU_FILE) ? menu_state.MENU_NONE: menu_state_;
 
-			state = (menu_state_ == menu_state.MENU_EDIT) ? NK_MAXIMIZED: NK_MINIMIZED;
-			if (nk_tree_state_push(ctx, NK_TREE_TAB, "EDIT", &state)) {
-			menu_state_ = menu_state.MENU_EDIT;
-			nk_menu_item_label(ctx, "Copy", NK_TEXT_LEFT);
-			nk_menu_item_label(ctx, "Delete", NK_TEXT_LEFT);
-			nk_menu_item_label(ctx, "Cut", NK_TEXT_LEFT);
-			nk_menu_item_label(ctx, "Paste", NK_TEXT_LEFT);
-			nk_tree_pop(ctx);
-			} else menu_state_ = (menu_state_ == menu_state.MENU_EDIT) ? menu_state.MENU_NONE: menu_state_;
+            state = (menu_state_ == menu_state.MENU_EDIT) ? NK_MAXIMIZED: NK_MINIMIZED;
+            if (nk_tree_state_push(ctx, NK_TREE_TAB, "EDIT", &state)) {
+            menu_state_ = menu_state.MENU_EDIT;
+            nk_menu_item_label(ctx, "Copy", NK_TEXT_LEFT);
+            nk_menu_item_label(ctx, "Delete", NK_TEXT_LEFT);
+            nk_menu_item_label(ctx, "Cut", NK_TEXT_LEFT);
+            nk_menu_item_label(ctx, "Paste", NK_TEXT_LEFT);
+            nk_tree_pop(ctx);
+            } else menu_state_ = (menu_state_ == menu_state.MENU_EDIT) ? menu_state.MENU_NONE: menu_state_;
 
-			state = (menu_state_ == menu_state.MENU_VIEW) ? NK_MAXIMIZED: NK_MINIMIZED;
-			if (nk_tree_state_push(ctx, NK_TREE_TAB, "VIEW", &state)) {
-			menu_state_ = menu_state.MENU_VIEW;
-			nk_menu_item_label(ctx, "About", NK_TEXT_LEFT);
-			nk_menu_item_label(ctx, "Options", NK_TEXT_LEFT);
-			nk_menu_item_label(ctx, "Customize", NK_TEXT_LEFT);
-			nk_tree_pop(ctx);
-			} else menu_state_ = (menu_state_ == menu_state.MENU_VIEW) ? menu_state.MENU_NONE: menu_state_;
+            state = (menu_state_ == menu_state.MENU_VIEW) ? NK_MAXIMIZED: NK_MINIMIZED;
+            if (nk_tree_state_push(ctx, NK_TREE_TAB, "VIEW", &state)) {
+            menu_state_ = menu_state.MENU_VIEW;
+            nk_menu_item_label(ctx, "About", NK_TEXT_LEFT);
+            nk_menu_item_label(ctx, "Options", NK_TEXT_LEFT);
+            nk_menu_item_label(ctx, "Customize", NK_TEXT_LEFT);
+            nk_tree_pop(ctx);
+            } else menu_state_ = (menu_state_ == menu_state.MENU_VIEW) ? menu_state.MENU_NONE: menu_state_;
 
-			state = (menu_state_ == menu_state.MENU_CHART) ? NK_MAXIMIZED: NK_MINIMIZED;
-			if (nk_tree_state_push(ctx, NK_TREE_TAB, "CHART", &state)) {
-			size_t i = 0;
-			const(float)[] values=[26.0f,13.0f,30.0f,15.0f,25.0f,10.0f,20.0f,40.0f,12.0f,8.0f,22.0f,28.0f];
-			menu_state_ = menu_state.MENU_CHART;
-			nk_layout_row_dynamic(ctx, 150, 1);
-			nk_chart_begin(ctx, NK_CHART_COLUMN, cast(int)values.length, 0, 50);
-			for (i = 0; i < values.length; ++i)
-			nk_chart_push(ctx, values[i]);
-			nk_chart_end(ctx);
-			nk_tree_pop(ctx);
-			} else menu_state_ = (menu_state_ == menu_state.MENU_CHART) ? menu_state.MENU_NONE: menu_state_;
-			nk_menu_end(ctx);
+            state = (menu_state_ == menu_state.MENU_CHART) ? NK_MAXIMIZED: NK_MINIMIZED;
+            if (nk_tree_state_push(ctx, NK_TREE_TAB, "CHART", &state)) {
+            size_t i = 0;
+            const(float)[] values=[26.0f,13.0f,30.0f,15.0f,25.0f,10.0f,20.0f,40.0f,12.0f,8.0f,22.0f,28.0f];
+            menu_state_ = menu_state.MENU_CHART;
+            nk_layout_row_dynamic(ctx, 150, 1);
+            nk_chart_begin(ctx, NK_CHART_COLUMN, cast(int)values.length, 0, 50);
+            for (i = 0; i < values.length; ++i)
+            nk_chart_push(ctx, values[i]);
+            nk_chart_end(ctx);
+            nk_tree_pop(ctx);
+            } else menu_state_ = (menu_state_ == menu_state.MENU_CHART) ? menu_state.MENU_NONE: menu_state_;
+            nk_menu_end(ctx);
             }
             /* menu widgets */
             nk_layout_row_push(ctx, 70);
@@ -321,31 +321,31 @@ overview(nk_context *ctx)
             if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Combo", NK_MINIMIZED, "943", 3 , 0))
             {
                 /* Combobox Widgets
-				* In this library comboboxes are not limited to being a popup
-				* list of selectable text. Instead it is a abstract concept of
-				* having something that is *selected* or displayed, a popup window
-				* which opens if something needs to be modified and the content
-				* of the popup which causes the *selected* or displayed value to
-				* change or if wanted close the combobox.
-				*
-				* While strange at first handling comboboxes in a abstract way
-				* solves the problem of overloaded window content. For example
-				* changing a color value requires 4 value modifier (slider, property,...)
-				* for RGBA then you need a label and ways to display the current color.
-				* If you want to go fancy you even add rgb and hsv ratio boxes.
-				* While fine for one color if you have a lot of them it because
-				* tedious to look at and quite wasteful in space. You could add
-				* a popup which modifies the color but this does not solve the
-				* fact that it still requires a lot of cluttered space to do.
-				*
-				* In these kind of instance abstract comboboxes are quite handy. All
-				* value modifiers are hidden inside the combobox popup and only
-				* the color is shown if not open. This combines the clarity of the
-				* popup with the ease of use of just using the space for modifiers.
-				*
-				* Other instances are for example time and especially date picker,
-				* which only show the currently activated time/data and hide the
-				* selection logic inside the combobox popup.*/
+                * In this library comboboxes are not limited to being a popup
+                * list of selectable text. Instead it is a abstract concept of
+                * having something that is *selected* or displayed, a popup window
+                * which opens if something needs to be modified and the content
+                * of the popup which causes the *selected* or displayed value to
+                * change or if wanted close the combobox.
+                *
+                * While strange at first handling comboboxes in a abstract way
+                * solves the problem of overloaded window content. For example
+                * changing a color value requires 4 value modifier (slider, property,...)
+                * for RGBA then you need a label and ways to display the current color.
+                * If you want to go fancy you even add rgb and hsv ratio boxes.
+                * While fine for one color if you have a lot of them it because
+                * tedious to look at and quite wasteful in space. You could add
+                * a popup which modifies the color but this does not solve the
+                * fact that it still requires a lot of cluttered space to do.
+                *
+                * In these kind of instance abstract comboboxes are quite handy. All
+                * value modifiers are hidden inside the combobox popup and only
+                * the color is shown if not open. This combines the clarity of the
+                * popup with the ease of use of just using the space for modifiers.
+                *
+                * Other instances are for example time and especially date picker,
+                * which only show the currently activated time/data and hide the
+                * selection logic inside the combobox popup.*/
 
                 static float chart_selection = 8.0f;
                 static int current_weapon = 0;
@@ -519,7 +519,7 @@ overview(nk_context *ctx)
                 nk_tree_pop(ctx);
             }
 
-			nk_tree_pop(ctx);
+            nk_tree_pop(ctx);
         }
 
 
@@ -527,15 +527,15 @@ overview(nk_context *ctx)
         if (nk_tree_push_hashed(ctx, NK_TREE_TAB, "Chart", NK_MINIMIZED, "1239", 4, 0))
         {
             /* Chart Widgets
-			* This library has two different rather simple charts. The line and the
-			* column chart. Both provide a simple way of visualizing values and
-			* have a retained mode and immediate mode API version. For the retain
-			* mode version `nk_plot` and `nk_plot_function` you either provide
-			* an array or a callback to call to handle drawing the graph.
-			* For the immediate mode version you start by calling `nk_chart_begin`
-			* and need to provide min and max values for scaling on the Y-axis.
-			* and then call `nk_chart_push` to push values into the chart.
-			* Finally `nk_chart_end` needs to be called to end the process.*/
+            * This library has two different rather simple charts. The line and the
+            * column chart. Both provide a simple way of visualizing values and
+            * have a retained mode and immediate mode API version. For the retain
+            * mode version `nk_plot` and `nk_plot_function` you either provide
+            * an array or a callback to call to handle drawing the graph.
+            * For the immediate mode version you start by calling `nk_chart_begin`
+            * and need to provide min and max values for scaling on the Y-axis.
+            * and then call `nk_chart_push` to push values into the chart.
+            * Finally `nk_chart_end` needs to be called to end the process.*/
             float id = 0;
             static int col_index = -1;
             static int line_index = -1;
@@ -901,46 +901,46 @@ overview(nk_context *ctx)
                 {
                     nk_style_pop_vec2(ctx);
                     switch (current_tab) {
-						default: break;
-						case chart_type.CHART_LINE:
-							nk_layout_row_dynamic(ctx, 100, 1);
-							bounds = nk_widget_bounds(ctx);
-							if (nk_chart_begin_colored(ctx, NK_CHART_LINES, nk_rgb(255,0,0), nk_rgb(150,0,0), 32, 0.0f, 1.0f)) {
-								nk_chart_add_slot_colored(ctx, NK_CHART_LINES, nk_rgb(0,0,255), nk_rgb(0,0,150),32, -1.0f, 1.0f);
-								for (i = 0, id = 0; i < 32; ++i) {
-									nk_chart_push_slot(ctx,cast (float)fabs(sin(id)), 0);
-									nk_chart_push_slot(ctx, cast(float)cos(id), 1);
-									id += step;
-								}
-							}
-							nk_chart_end(ctx);
-							break;
-						case chart_type.CHART_HISTO:
-							nk_layout_row_dynamic(ctx, 100, 1);
-							bounds = nk_widget_bounds(ctx);
-							if (nk_chart_begin_colored(ctx, NK_CHART_COLUMN, nk_rgb(255,0,0), nk_rgb(150,0,0), 32, 0.0f, 1.0f)) {
-								for (i = 0, id = 0; i < 32; ++i) {
-									nk_chart_push_slot(ctx, cast(float)fabs(sin(id)), 0);
-									id += step;
-								}
-							}
-							nk_chart_end(ctx);
-							break;
-						case chart_type.CHART_MIXED:
-							nk_layout_row_dynamic(ctx, 100, 1);
-							bounds = nk_widget_bounds(ctx);
-							if (nk_chart_begin_colored(ctx, NK_CHART_LINES, nk_rgb(255,0,0), nk_rgb(150,0,0), 32, 0.0f, 1.0f)) {
-								nk_chart_add_slot_colored(ctx, NK_CHART_LINES, nk_rgb(0,0,255), nk_rgb(0,0,150),32, -1.0f, 1.0f);
-								nk_chart_add_slot_colored(ctx, NK_CHART_COLUMN, nk_rgb(0,255,0), nk_rgb(0,150,0), 32, 0.0f, 1.0f);
-								for (i = 0, id = 0; i < 32; ++i) {
-									nk_chart_push_slot(ctx, cast(float)fabs(sin(id)), 0);
-									nk_chart_push_slot(ctx, cast(float)fabs(cos(id)), 1);
-									nk_chart_push_slot(ctx, cast(float)fabs(sin(id)), 2);
-									id += step;
-								}
-							}
-							nk_chart_end(ctx);
-							break;
+                        default: break;
+                        case chart_type.CHART_LINE:
+                            nk_layout_row_dynamic(ctx, 100, 1);
+                            bounds = nk_widget_bounds(ctx);
+                            if (nk_chart_begin_colored(ctx, NK_CHART_LINES, nk_rgb(255,0,0), nk_rgb(150,0,0), 32, 0.0f, 1.0f)) {
+                                nk_chart_add_slot_colored(ctx, NK_CHART_LINES, nk_rgb(0,0,255), nk_rgb(0,0,150),32, -1.0f, 1.0f);
+                                for (i = 0, id = 0; i < 32; ++i) {
+                                    nk_chart_push_slot(ctx,cast (float)fabs(sin(id)), 0);
+                                    nk_chart_push_slot(ctx, cast(float)cos(id), 1);
+                                    id += step;
+                                }
+                            }
+                            nk_chart_end(ctx);
+                            break;
+                        case chart_type.CHART_HISTO:
+                            nk_layout_row_dynamic(ctx, 100, 1);
+                            bounds = nk_widget_bounds(ctx);
+                            if (nk_chart_begin_colored(ctx, NK_CHART_COLUMN, nk_rgb(255,0,0), nk_rgb(150,0,0), 32, 0.0f, 1.0f)) {
+                                for (i = 0, id = 0; i < 32; ++i) {
+                                    nk_chart_push_slot(ctx, cast(float)fabs(sin(id)), 0);
+                                    id += step;
+                                }
+                            }
+                            nk_chart_end(ctx);
+                            break;
+                        case chart_type.CHART_MIXED:
+                            nk_layout_row_dynamic(ctx, 100, 1);
+                            bounds = nk_widget_bounds(ctx);
+                            if (nk_chart_begin_colored(ctx, NK_CHART_LINES, nk_rgb(255,0,0), nk_rgb(150,0,0), 32, 0.0f, 1.0f)) {
+                                nk_chart_add_slot_colored(ctx, NK_CHART_LINES, nk_rgb(0,0,255), nk_rgb(0,0,150),32, -1.0f, 1.0f);
+                                nk_chart_add_slot_colored(ctx, NK_CHART_COLUMN, nk_rgb(0,255,0), nk_rgb(0,150,0), 32, 0.0f, 1.0f);
+                                for (i = 0, id = 0; i < 32; ++i) {
+                                    nk_chart_push_slot(ctx, cast(float)fabs(sin(id)), 0);
+                                    nk_chart_push_slot(ctx, cast(float)fabs(cos(id)), 1);
+                                    nk_chart_push_slot(ctx, cast(float)fabs(sin(id)), 2);
+                                    id += step;
+                                }
+                            }
+                            nk_chart_end(ctx);
+                            break;
                     }
                     nk_group_end(ctx);
                 } else nk_style_pop_vec2(ctx);
@@ -1089,7 +1089,7 @@ overview(nk_context *ctx)
                     bounds = nk_widget_bounds(ctx);
                     nk_spacing(ctx, 1);
                     if ((nk_input_is_mouse_hovering_rect(in_, bounds) ||
-						 nk_input_is_mouse_prev_hovering_rect(in_, bounds)) &&
+                         nk_input_is_mouse_prev_hovering_rect(in_, bounds)) &&
                         nk_input_is_mouse_down(in_, NK_BUTTON_LEFT))
                     {
                         a = row_layout[0] + in_.mouse.delta.x;
@@ -1112,7 +1112,7 @@ overview(nk_context *ctx)
                     bounds = nk_widget_bounds(ctx);
                     nk_spacing(ctx, 1);
                     if ((nk_input_is_mouse_hovering_rect(in_, bounds) ||
-						 nk_input_is_mouse_prev_hovering_rect(in_, bounds)) &&
+                         nk_input_is_mouse_prev_hovering_rect(in_, bounds)) &&
                         nk_input_is_mouse_down(in_, NK_BUTTON_LEFT))
                     {
                         b = (row_layout[2] + in_.mouse.delta.x);
@@ -1168,7 +1168,7 @@ overview(nk_context *ctx)
                     bounds = nk_widget_bounds(ctx);
                     nk_spacing(ctx, 1);
                     if ((nk_input_is_mouse_hovering_rect(in_, bounds) ||
-						 nk_input_is_mouse_prev_hovering_rect(in_, bounds)) &&
+                         nk_input_is_mouse_prev_hovering_rect(in_, bounds)) &&
                         nk_input_is_mouse_down(in_, NK_BUTTON_LEFT))
                     {
                         a2 = a2 + in_.mouse.delta.y;
@@ -1193,7 +1193,7 @@ overview(nk_context *ctx)
                         nk_layout_row_dynamic(ctx, 8, 1);
                         bounds = nk_widget_bounds(ctx);
                         if ((nk_input_is_mouse_hovering_rect(in_, bounds) ||
-							 nk_input_is_mouse_prev_hovering_rect(in_, bounds)) &&
+                             nk_input_is_mouse_prev_hovering_rect(in_, bounds)) &&
                             nk_input_is_mouse_down(in_, NK_BUTTON_LEFT))
                         {
                             b2 = b2 + in_.mouse.delta.y;
@@ -1220,7 +1220,7 @@ overview(nk_context *ctx)
             nk_tree_pop(ctx);
         }
 
-	}
+    }
     nk_end(ctx);
     return !nk_window_is_closed(ctx, "Overview");
 }

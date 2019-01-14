@@ -218,7 +218,7 @@ nk_sdl_render(nk_anti_aliasing AA, int max_vertex_buffer, int max_element_buffer
                 {nk_draw_vertex_layout_attribute.NK_VERTEX_POSITION, nk_draw_vertex_layout_format.NK_FORMAT_FLOAT, nk_sdl_vertex.position.offsetof},
                     {nk_draw_vertex_layout_attribute.NK_VERTEX_TEXCOORD, nk_draw_vertex_layout_format.NK_FORMAT_FLOAT, nk_sdl_vertex.uv.offsetof},
                         {nk_draw_vertex_layout_attribute.NK_VERTEX_COLOR, nk_draw_vertex_layout_format.NK_FORMAT_R8G8B8A8, nk_sdl_vertex.col.offsetof},
-                            {nk_draw_vertex_layout_attribute.NK_VERTEX_ATTRIBUTE_COUNT,nk_draw_vertex_layout_format.NK_FORMAT_COUNT,0}
+                            NK_VERTEX_LAYOUT_END
             ];
             memset(&config, 0, config.sizeof);
             config.vertex_layout = vertex_layout.ptr;

@@ -8,9 +8,9 @@ import core.stdc.math;
 void
 calculator(nk_context *ctx)
 {
-	import core.stdc.stdlib;
+    import core.stdc.stdlib;
     if (nk_begin(ctx, "Calculator", nk_rect(10, 10, 180, 250),
-				 NK_WINDOW_BORDER|NK_WINDOW_NO_SCROLLBAR|NK_WINDOW_MOVABLE|NK_WINDOW_TITLE))
+                 NK_WINDOW_BORDER|NK_WINDOW_NO_SCROLLBAR|NK_WINDOW_MOVABLE|NK_WINDOW_TITLE))
     {
         static int set = 0, prev = 0, op = 0;
         static const(char)* numbers = "789456123";
@@ -18,20 +18,20 @@ calculator(nk_context *ctx)
         static double a = 0, b = 0;
         static double *current = null;
 
-		if(current == null)
-			current = &a;
+        if(current == null)
+            current = &a;
 
         size_t i = 0;
         int solve = 0;
         {int len=3; char[256] buffer;
         nk_layout_row_dynamic(ctx, 35, 1);
 
-		len = snprintf(buffer.ptr, 256, "%.2f", *current);
+        len = snprintf(buffer.ptr, 256, "%.2f", *current);
         nk_edit_string(ctx, NK_EDIT_SIMPLE, buffer.ptr, &len, 255, nk_filter_float);
 
-		buffer[len] = 0;
+        buffer[len] = 0;
         *current = atof(buffer.ptr);
-		}
+        }
 
         nk_layout_row_dynamic(ctx, 35, 4);
         for (i = 0; i < 16; ++i) {

@@ -878,6 +878,8 @@ version(NK_INCLUDE_VERTEX_BUFFER_OUTPUT)
         nk_draw_vertex_layout_format format;
         nk_size offset;
     }
+    
+    const(nk_draw_vertex_layout_element) NK_VERTEX_LAYOUT_END = { nk_draw_vertex_layout_attribute.NK_VERTEX_ATTRIBUTE_COUNT,nk_draw_vertex_layout_format.NK_FORMAT_COUNT,0 };
 
     struct nk_draw_command {
         uint elem_count;
