@@ -917,7 +917,7 @@ extern(C) @nogc nothrow {
         pnk_murmur_hash nk_murmur_hash;
         pnk_triangle_from_direction nk_triangle_from_direction;
         pnk_vec2 nk_vec2_;
-        pnk_vec2i nk_vec2i;
+        pnk_vec2i nk_vec2i_;
         pnk_vec2v nk_vec2v;
         pnk_vec2iv nk_vec2iv;
         pnk_get_null_rect nk_get_null_rect;
@@ -1510,7 +1510,7 @@ NuklearSupport loadNuklear(const(char)* libName)
     lib.bindSymbol(cast(void**)&nk_murmur_hash,"nk_murmur_hash");
     lib.bindSymbol(cast(void**)&nk_triangle_from_direction,"nk_triangle_from_direction");
     lib.bindSymbol(cast(void**)&nk_vec2_,"nk_vec2");
-    lib.bindSymbol(cast(void**)&nk_vec2i,"nk_vec2i");
+    lib.bindSymbol(cast(void**)&nk_vec2i_,"nk_vec2i");
     lib.bindSymbol(cast(void**)&nk_vec2v,"nk_vec2v");
     lib.bindSymbol(cast(void**)&nk_vec2iv,"nk_vec2iv");
     lib.bindSymbol(cast(void**)&nk_get_null_rect,"nk_get_null_rect");

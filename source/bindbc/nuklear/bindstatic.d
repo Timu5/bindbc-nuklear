@@ -371,7 +371,8 @@ extern(C) @nogc nothrow {
     void nk_triangle_from_direction(nk_vec2* result, nk_rect r, float pad_x, float pad_y, nk_heading);
     pragma(mangle, "nk_vec2")
         nk_vec2 nk_vec2_(float x, float y);
-    nk_vec2 nk_vec2i(int x, int y);
+    pragma(mangle, "nk_vec2i")
+        nk_vec2 nk_vec2i_(int x, int y);
     nk_vec2 nk_vec2v(const(float)* xy);
     nk_vec2 nk_vec2iv(const(int)* xy);
     nk_rect nk_get_null_rect();
