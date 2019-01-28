@@ -68,53 +68,53 @@ overview(nk_context *ctx)
             nk_layout_row_push(ctx, 60);
             if (nk_menu_begin_label(ctx, "ADVANCED", NK_TEXT_LEFT, nk_vec2(200, 600)))
             {
-            enum menu_state {MENU_NONE,MENU_FILE, MENU_EDIT,MENU_VIEW,MENU_CHART}
-            static menu_state menu_state_ = menu_state.MENU_NONE;
-            nk_collapse_states state;
+                enum menu_state {MENU_NONE,MENU_FILE, MENU_EDIT,MENU_VIEW,MENU_CHART}
+                static menu_state menu_state_ = menu_state.MENU_NONE;
+                nk_collapse_states state;
 
-            state = (menu_state_ == menu_state.MENU_FILE) ? NK_MAXIMIZED: NK_MINIMIZED;
-            if (nk_tree_state_push(ctx, NK_TREE_TAB, "FILE", &state)) {
-            menu_state_ =menu_state. MENU_FILE;
-            nk_menu_item_label(ctx, "New", NK_TEXT_LEFT);
-            nk_menu_item_label(ctx, "Open", NK_TEXT_LEFT);
-            nk_menu_item_label(ctx, "Save", NK_TEXT_LEFT);
-            nk_menu_item_label(ctx, "Close", NK_TEXT_LEFT);
-            nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT);
-            nk_tree_pop(ctx);
-            } else menu_state_ = (menu_state_ == menu_state.MENU_FILE) ? menu_state.MENU_NONE: menu_state_;
+                state = (menu_state_ == menu_state.MENU_FILE) ? NK_MAXIMIZED: NK_MINIMIZED;
+                if (nk_tree_state_push(ctx, NK_TREE_TAB, "FILE", &state)) {
+                    menu_state_ =menu_state. MENU_FILE;
+                    nk_menu_item_label(ctx, "New", NK_TEXT_LEFT);
+                    nk_menu_item_label(ctx, "Open", NK_TEXT_LEFT);
+                    nk_menu_item_label(ctx, "Save", NK_TEXT_LEFT);
+                    nk_menu_item_label(ctx, "Close", NK_TEXT_LEFT);
+                    nk_menu_item_label(ctx, "Exit", NK_TEXT_LEFT);
+                    nk_tree_pop(ctx);
+                } else menu_state_ = (menu_state_ == menu_state.MENU_FILE) ? menu_state.MENU_NONE: menu_state_;
 
-            state = (menu_state_ == menu_state.MENU_EDIT) ? NK_MAXIMIZED: NK_MINIMIZED;
-            if (nk_tree_state_push(ctx, NK_TREE_TAB, "EDIT", &state)) {
-            menu_state_ = menu_state.MENU_EDIT;
-            nk_menu_item_label(ctx, "Copy", NK_TEXT_LEFT);
-            nk_menu_item_label(ctx, "Delete", NK_TEXT_LEFT);
-            nk_menu_item_label(ctx, "Cut", NK_TEXT_LEFT);
-            nk_menu_item_label(ctx, "Paste", NK_TEXT_LEFT);
-            nk_tree_pop(ctx);
-            } else menu_state_ = (menu_state_ == menu_state.MENU_EDIT) ? menu_state.MENU_NONE: menu_state_;
+                state = (menu_state_ == menu_state.MENU_EDIT) ? NK_MAXIMIZED: NK_MINIMIZED;
+                if (nk_tree_state_push(ctx, NK_TREE_TAB, "EDIT", &state)) {
+                    menu_state_ = menu_state.MENU_EDIT;
+                    nk_menu_item_label(ctx, "Copy", NK_TEXT_LEFT);
+                    nk_menu_item_label(ctx, "Delete", NK_TEXT_LEFT);
+                    nk_menu_item_label(ctx, "Cut", NK_TEXT_LEFT);
+                    nk_menu_item_label(ctx, "Paste", NK_TEXT_LEFT);
+                    nk_tree_pop(ctx);
+                } else menu_state_ = (menu_state_ == menu_state.MENU_EDIT) ? menu_state.MENU_NONE: menu_state_;
 
-            state = (menu_state_ == menu_state.MENU_VIEW) ? NK_MAXIMIZED: NK_MINIMIZED;
-            if (nk_tree_state_push(ctx, NK_TREE_TAB, "VIEW", &state)) {
-            menu_state_ = menu_state.MENU_VIEW;
-            nk_menu_item_label(ctx, "About", NK_TEXT_LEFT);
-            nk_menu_item_label(ctx, "Options", NK_TEXT_LEFT);
-            nk_menu_item_label(ctx, "Customize", NK_TEXT_LEFT);
-            nk_tree_pop(ctx);
-            } else menu_state_ = (menu_state_ == menu_state.MENU_VIEW) ? menu_state.MENU_NONE: menu_state_;
+                state = (menu_state_ == menu_state.MENU_VIEW) ? NK_MAXIMIZED: NK_MINIMIZED;
+                if (nk_tree_state_push(ctx, NK_TREE_TAB, "VIEW", &state)) {
+                    menu_state_ = menu_state.MENU_VIEW;
+                    nk_menu_item_label(ctx, "About", NK_TEXT_LEFT);
+                    nk_menu_item_label(ctx, "Options", NK_TEXT_LEFT);
+                    nk_menu_item_label(ctx, "Customize", NK_TEXT_LEFT);
+                    nk_tree_pop(ctx);
+                } else menu_state_ = (menu_state_ == menu_state.MENU_VIEW) ? menu_state.MENU_NONE: menu_state_;
 
-            state = (menu_state_ == menu_state.MENU_CHART) ? NK_MAXIMIZED: NK_MINIMIZED;
-            if (nk_tree_state_push(ctx, NK_TREE_TAB, "CHART", &state)) {
-            size_t i = 0;
-            const(float)[] values=[26.0f,13.0f,30.0f,15.0f,25.0f,10.0f,20.0f,40.0f,12.0f,8.0f,22.0f,28.0f];
-            menu_state_ = menu_state.MENU_CHART;
-            nk_layout_row_dynamic(ctx, 150, 1);
-            nk_chart_begin(ctx, NK_CHART_COLUMN, cast(int)values.length, 0, 50);
-            for (i = 0; i < values.length; ++i)
-            nk_chart_push(ctx, values[i]);
-            nk_chart_end(ctx);
-            nk_tree_pop(ctx);
-            } else menu_state_ = (menu_state_ == menu_state.MENU_CHART) ? menu_state.MENU_NONE: menu_state_;
-            nk_menu_end(ctx);
+                state = (menu_state_ == menu_state.MENU_CHART) ? NK_MAXIMIZED: NK_MINIMIZED;
+                if (nk_tree_state_push(ctx, NK_TREE_TAB, "CHART", &state)) {
+                    size_t i = 0;
+                    const(float)[] values=[26.0f,13.0f,30.0f,15.0f,25.0f,10.0f,20.0f,40.0f,12.0f,8.0f,22.0f,28.0f];
+                    menu_state_ = menu_state.MENU_CHART;
+                    nk_layout_row_dynamic(ctx, 150, 1);
+                    nk_chart_begin(ctx, NK_CHART_COLUMN, cast(int)values.length, 0, 50);
+                    for (i = 0; i < values.length; ++i)
+                        nk_chart_push(ctx, values[i]);
+                    nk_chart_end(ctx);
+                    nk_tree_pop(ctx);
+                } else menu_state_ = (menu_state_ == menu_state.MENU_CHART) ? menu_state.MENU_NONE: menu_state_;
+                nk_menu_end(ctx);
             }
             /* menu widgets */
             nk_layout_row_push(ctx, 70);
@@ -152,12 +152,12 @@ overview(nk_context *ctx)
             nk_tree_pop(ctx);
         }
 
-        if (nk_tree_push_hashed(ctx, NK_TREE_TAB, "Widgets", NK_MINIMIZED, "777".ptr, 3, 0))
+        if (nk_tree_push(ctx, NK_TREE_TAB, "Widgets", NK_MINIMIZED))
         {
             enum options {A,B,C}
             static int checkbox;
             static int option;
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Text", NK_MINIMIZED, "782".ptr, 3, 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Text", NK_MINIMIZED))
             {
                 // Text Widgets 
                 nk_layout_row_dynamic(ctx, 20, 1);
@@ -175,7 +175,7 @@ overview(nk_context *ctx)
                 nk_tree_pop(ctx);
             }
 
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Button", NK_MINIMIZED, "800".ptr, 3, 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Button", NK_MINIMIZED))
             {
                 // Buttons Widgets
                 nk_layout_row_static(ctx, 30, 100, 3);
@@ -203,7 +203,7 @@ overview(nk_context *ctx)
                 nk_tree_pop(ctx);
             }
 
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Basic", NK_MINIMIZED, "828".ptr, 3, 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Basic", NK_MINIMIZED))
             {
                 // Basic widgets 
                 static int int_slider = 5;
@@ -260,7 +260,7 @@ overview(nk_context *ctx)
                 nk_tree_pop(ctx);
             }
 
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Inactive", NK_MINIMIZED, "885", 3 , 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Inactive", NK_MINIMIZED))
             {
                 static int inactive = 1;
                 nk_layout_row_dynamic(ctx, 30, 1);
@@ -286,9 +286,9 @@ overview(nk_context *ctx)
             }
 
 
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Selectable", NK_MINIMIZED, "911", 3 , 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Selectable", NK_MINIMIZED))
             {
-                if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "List", NK_MINIMIZED, "913", 3 , 0))
+                if (nk_tree_push(ctx, NK_TREE_NODE, "List", NK_MINIMIZED))
                 {
                     static int[4] selected = [nk_false, nk_false, nk_true, nk_false];
                     nk_layout_row_static(ctx, 18, 100, 1);
@@ -299,7 +299,7 @@ overview(nk_context *ctx)
                     nk_selectable_label(ctx, "Selectable", NK_TEXT_LEFT, &selected[3]);
                     nk_tree_pop(ctx);
                 }
-                if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Grid", NK_MINIMIZED, "924", 3 , 0))
+                if (nk_tree_push(ctx, NK_TREE_NODE, "Grid", NK_MINIMIZED))
                 {
                     int i;
                     static int[16] selected2 = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
@@ -318,7 +318,7 @@ overview(nk_context *ctx)
                 nk_tree_pop(ctx);
             }
 
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Combo", NK_MINIMIZED, "943", 3 , 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Combo", NK_MINIMIZED))
             {
                 /* Combobox Widgets
                 * In this library comboboxes are not limited to being a popup
@@ -461,7 +461,7 @@ overview(nk_context *ctx)
                 nk_tree_pop(ctx);
             }
 
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Input", NK_MINIMIZED, "1179", 4, 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Input", NK_MINIMIZED))
             {
                 static const(float)[] ratio2 = [120, 150];
                 static char[64] field_buffer;
@@ -524,7 +524,7 @@ overview(nk_context *ctx)
 
 
 
-        if (nk_tree_push_hashed(ctx, NK_TREE_TAB, "Chart", NK_MINIMIZED, "1239", 4, 0))
+        if (nk_tree_push(ctx, NK_TREE_TAB, "Chart", NK_MINIMIZED))
         {
             /* Chart Widgets
             * This library has two different rather simple charts. The line and the
@@ -622,7 +622,7 @@ overview(nk_context *ctx)
             nk_tree_pop(ctx);
         }
 
-        if (nk_tree_push_hashed(ctx, NK_TREE_TAB, "Popup", NK_MINIMIZED, "1337", 4, 0))
+        if (nk_tree_push(ctx, NK_TREE_TAB, "Popup", NK_MINIMIZED))
         {
             static nk_color color = {255,0,0, 255};
             static int[4] select;
@@ -709,9 +709,9 @@ overview(nk_context *ctx)
             nk_tree_pop(ctx);
         }
 
-        if (nk_tree_push_hashed(ctx, NK_TREE_TAB, "Layout", NK_MINIMIZED, "1424", 4, 0))
+        if (nk_tree_push(ctx, NK_TREE_TAB, "Layout", NK_MINIMIZED))
         {
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Widget", NK_MINIMIZED, "1426", 4, 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Widget", NK_MINIMIZED))
             {
                 float[] ratio_two = [0.2f, 0.6f, 0.2f];
                 float[] width_two = [100, 200, 50];
@@ -793,7 +793,7 @@ overview(nk_context *ctx)
                 nk_tree_pop(ctx);
             }
 
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Group", NK_MINIMIZED, "1508", 4, 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Group", NK_MINIMIZED))
             {
                 static int group_titlebar = nk_false;
                 static int group_border = nk_true;
@@ -831,12 +831,12 @@ overview(nk_context *ctx)
                 }
                 nk_tree_pop(ctx);
             }
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Tree", NK_MINIMIZED, "1546", 4, 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Tree", NK_MINIMIZED))
             {
                 static int root_selected = 0;
                 int sel = root_selected;
 
-                if (nk_tree_element_push_hashed(ctx, NK_TREE_NODE, "Root", NK_MINIMIZED, &sel, "1464", 4, 0)) {
+                if (nk_tree_element_push(ctx, NK_TREE_NODE, "Root", NK_MINIMIZED, &sel)) {
                     static int[8] selected0;
                     int i = 0, node_select = selected0[0];
                     if (sel != root_selected) {
@@ -844,7 +844,7 @@ overview(nk_context *ctx)
                         for (i = 0; i < 8; ++i)
                             selected0[i] = sel;
                     }
-                    if (nk_tree_element_push_hashed(ctx, NK_TREE_NODE, "Node", NK_MINIMIZED, &node_select, "1464", 4, 0)) {
+                    if (nk_tree_element_push(ctx, NK_TREE_NODE, "Node", NK_MINIMIZED, &node_select)) {
                         int j = 0;
                         static int[4] sel_nodes;
                         if (node_select != selected0[0]) {
@@ -947,7 +947,7 @@ overview(nk_context *ctx)
                 nk_tree_pop(ctx);
             }
 
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Simple", NK_MINIMIZED, "1660", 4, 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Simple", NK_MINIMIZED))
             {
                 nk_layout_row_dynamic(ctx, 300, 2);
                 if (nk_group_begin(ctx, "Group_Without_Border", 0)) {
@@ -973,7 +973,7 @@ overview(nk_context *ctx)
                 nk_tree_pop(ctx);
             }
 
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Complex", NK_MINIMIZED, "1686", 4, 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Complex", NK_MINIMIZED))
             {
                 int i;
                 nk_layout_space_begin(ctx, NK_STATIC, 500, 64);
@@ -1040,14 +1040,14 @@ overview(nk_context *ctx)
                 nk_tree_pop(ctx);
             }
 
-            if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Splitter", NK_MINIMIZED, "1668", 4, 0))
+            if (nk_tree_push(ctx, NK_TREE_NODE, "Splitter", NK_MINIMIZED))
             {
                 const(nk_input) *in_ = &ctx.input;
                 nk_layout_row_static(ctx, 20, 320, 1);
                 nk_label(ctx, "Use slider and spinner to change tile size", NK_TEXT_LEFT);
                 nk_label(ctx, "Drag the space between tiles to change tile ratio", NK_TEXT_LEFT);
 
-                if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Vertical", NK_MINIMIZED, "1675", 4, 0))
+                if (nk_tree_push(ctx, NK_TREE_NODE, "Vertical", NK_MINIMIZED))
                 {
                     static float a = 100, b = 100, c = 100;
                     nk_rect bounds;
@@ -1134,7 +1134,7 @@ overview(nk_context *ctx)
                     nk_tree_pop(ctx);
                 }
 
-                if (nk_tree_push_hashed(ctx, NK_TREE_NODE, "Horizontal", NK_MINIMIZED, "1762", 4, 0))
+                if (nk_tree_push(ctx, NK_TREE_NODE, "Horizontal", NK_MINIMIZED))
                 {
                     static float a2 = 100, b2 = 100, c2 = 100;
                     nk_rect bounds;
