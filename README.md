@@ -1,0 +1,6 @@
+# bindbc-nuklear
+BindBC binding to [Nuklear](https://github.com/vurtun/nuklear).
+
+This library contains prebuild windows dll for Nuklear, on different platforms you can easily build C source code from cmake configuration in c directory.
+
+You can find original Nuklear examples ported to D inside demo directory.
