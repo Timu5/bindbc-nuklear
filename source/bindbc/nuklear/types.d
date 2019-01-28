@@ -12,6 +12,21 @@ enum NuklearSupport {
     Nuklear4,
 }
 
+version (NK_ALL)
+{
+    version = NK_INCLUDE_FIXED_TYPES;
+    version = NK_INCLUDE_DEFAULT_ALLOCATOR;
+    version = NK_INCLUDE_STANDARD_IO;
+    version = NK_INCLUDE_STANDARD_VARARGS;
+    version = NK_INCLUDE_VERTEX_BUFFER_OUTPUT;
+    version = NK_INCLUDE_FONT_BAKING;
+    version = NK_INCLUDE_DEFAULT_FONT;
+    version = NK_INCLUDE_COMMAND_USERDATA;
+    version = NK_BUTTON_TRIGGER_ON_RELEASE;
+    version = NK_ZERO_COMMAND_MEMORY;
+    version = NK_UINT_DRAW_INDEX;
+}
+
 enum NK_UNDEFINED = -1.0f;
 enum NK_UTF_INVALID = 0xFFFD;
 enum NK_UTF_SIZE = 4;
@@ -1934,7 +1949,7 @@ version(NK_INCLUDE_FONT_BAKING)
     enum NK_COORD_UV = nk_font_coord_type.NK_COORD_UV;
     enum NK_COORD_PIXEL = nk_font_coord_type.NK_COORD_PIXEL;
     enum NK_FONT_ATLAS_ALPHA8 = nk_font_atlas_format.NK_FONT_ATLAS_ALPHA8;
-    enum NK_FONT_ATLAS_RGBA32 = nk_font_atlas_format.NK_FONT_ATLAS_ALPHA8;
+    enum NK_FONT_ATLAS_RGBA32 = nk_font_atlas_format.NK_FONT_ATLAS_RGBA32;
 }
 
 version(NK_INCLUDE_VERTEX_BUFFER_OUTPUT)

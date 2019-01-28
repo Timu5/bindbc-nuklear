@@ -10,6 +10,21 @@ import bindbc.nuklear.types;
 import bindbc.nuklear.binddynamic;
 import bindbc.nuklear.bindstatic;
 
+version (NK_ALL)
+{
+    version = NK_INCLUDE_FIXED_TYPES;
+    version = NK_INCLUDE_DEFAULT_ALLOCATOR;
+    version = NK_INCLUDE_STANDARD_IO;
+    version = NK_INCLUDE_STANDARD_VARARGS;
+    version = NK_INCLUDE_VERTEX_BUFFER_OUTPUT;
+    version = NK_INCLUDE_FONT_BAKING;
+    version = NK_INCLUDE_DEFAULT_FONT;
+    version = NK_INCLUDE_COMMAND_USERDATA;
+    version = NK_BUTTON_TRIGGER_ON_RELEASE;
+    version = NK_ZERO_COMMAND_MEMORY;
+    version = NK_UINT_DRAW_INDEX;
+}
+
 @nogc nothrow {
 
     alias nk_command_delegate = void delegate(const(nk_command)*);
@@ -46,10 +61,10 @@ import bindbc.nuklear.bindstatic;
         }
 
         auto nk_tree_element_push(size_t line = __LINE__)(nk_context *ctx, nk_tree_type type, const(char) *title, nk_collapse_states state, int* selected) {
-            return nk_tree_element_push_hashed(ctx, type, title, title, state, selected, null, 0,line);
+            return nk_tree_element_push_hashed(ctx, type, title, state, selected, null, 0,line);
         }
-        auto nk_tree_element_push_id(size_t line = __LINE__)(nk_context *ctx, nk_tree_type type, const(char) *title, nk_collapse_states state, int* selected, int id) {
-            return nk_tree_element_push_hashed(ctx, type, title, title, state, selected, null, 0,id);
+        auto nk_tree_element_push_id(nk_context *ctx, nk_tree_type type, const(char) *title, nk_collapse_states state, int* selected, int id) {
+            return nk_tree_element_push_hashed(ctx, type, title, state, selected, null, 0,id);
         }
 
         version(NK_INCLUDE_VERTEX_BUFFER_OUTPUT) {
