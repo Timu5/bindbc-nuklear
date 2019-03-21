@@ -28,7 +28,10 @@ version (NK_ALL)
 @nogc nothrow {
 
     alias nk_command_delegate = void delegate(const(nk_command)*);
-    alias nk_draw_command_delegate = void delegate(const(nk_draw_command)*);
+    version(NK_INCLUDE_VERTEX_BUFFER_OUTPUT)
+    {
+        alias nk_draw_command_delegate = void delegate(const(nk_draw_command)*);
+    }
 
     pragma(inline, true) {
         void nk_foreach(nk_context* ctx, nk_command_delegate block) {
