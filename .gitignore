@@ -6,3 +6,5 @@ nuklear/*
 .dll
 .vs
 .sln
+build
+include
