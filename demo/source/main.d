@@ -432,12 +432,17 @@ int main(string[] args)
 {
     int win_width= 1200;
     int win_height = 800;
-    NuklearSupport nuksup = loadNuklear();
-    if(nuksup != NuklearSupport.Nuklear4)
+
+    version(BindNuklear_Dynamic)
     {
-        printf("Error: Nuklear library is not found.");
-        return -1;
+        NuklearSupport nuksup = loadNuklear();
+        if(nuksup != NuklearSupport.Nuklear4)
+        {
+            printf("Error: Nuklear library is not found.");
+            return -1;
+        }
     }
+
     SDLSupport sdlsup = loadSDL();
     if (sdlsup != sdlSupport)
     {

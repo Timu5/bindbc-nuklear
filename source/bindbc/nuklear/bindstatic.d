@@ -489,13 +489,30 @@ extern(C) @nogc nothrow {
     const(char)* nk_str_get_const(const(nk_str)*);
     int nk_str_len(nk_str*);
     int nk_str_len_char(nk_str*);
-    int nk_filter_default(const(nk_text_edit)*, nk_rune unicode);
-    int nk_filter_ascii(const(nk_text_edit)*, nk_rune unicode);
-    int nk_filter_float(const(nk_text_edit)*, nk_rune unicode);
-    int nk_filter_decimal(const(nk_text_edit)*, nk_rune unicode);
-    int nk_filter_hex(const(nk_text_edit)*, nk_rune unicode);
-    int nk_filter_oct(const(nk_text_edit)*, nk_rune unicode);
-    int nk_filter_binary(const(nk_text_edit)*, nk_rune unicode);
+
+    pragma(mangle, "nk_filter_default")
+        int nk_filter_default_fn(const(nk_text_edit)*, nk_rune unicode);
+    pragma(mangle, "nk_filter_ascii")
+        int nk_filter_ascii_fn(const(nk_text_edit)*, nk_rune unicode);
+    pragma(mangle, "nk_filter_float")
+        int nk_filter_float_fn(const(nk_text_edit)*, nk_rune unicode);
+    pragma(mangle, "nk_filter_decimal")
+        int nk_filter_decimal_fn(const(nk_text_edit)*, nk_rune unicode);
+    pragma(mangle, "nk_filter_hex")
+        int nk_filter_hex_fn(const(nk_text_edit)*, nk_rune unicode);
+    pragma(mangle, "nk_filter_oct")
+        int nk_filter_oct_fn(const(nk_text_edit)*, nk_rune unicode);
+    pragma(mangle, "nk_filter_binary")
+        int nk_filter_binary_fn(const(nk_text_edit)*, nk_rune unicode);
+
+    nk_plugin_filter nk_filter_default = &nk_filter_default_fn;
+    nk_plugin_filter nk_filter_ascii = &nk_filter_ascii_fn;
+    nk_plugin_filter nk_filter_float = &nk_filter_float_fn;
+    nk_plugin_filter nk_filter_decimal = &nk_filter_decimal_fn;
+    nk_plugin_filter nk_filter_hex = &nk_filter_hex_fn;
+    nk_plugin_filter nk_filter_oct = &nk_filter_oct_fn;
+    nk_plugin_filter nk_filter_binary = &nk_filter_binary_fn;
+
     version(NK_INCLUDE_DEFAULT_ALLOCATOR) {
         void nk_textedit_init_default(nk_text_edit*);
     }
