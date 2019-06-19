@@ -496,6 +496,15 @@ extern(C) @nogc nothrow {
     int nk_filter_hex(const(nk_text_edit)*, nk_rune unicode);
     int nk_filter_oct(const(nk_text_edit)*, nk_rune unicode);
     int nk_filter_binary(const(nk_text_edit)*, nk_rune unicode);
+
+    auto nk_filter_default_fptr = &nk_filter_default;
+    auto nk_filter_ascii_fptr   = &nk_filter_ascii;
+    auto nk_filter_float_fptr   = &nk_filter_float;
+    auto nk_filter_decimal_fptr = &nk_filter_decimal;
+    auto nk_filter_hex_fptr     = &nk_filter_hex;
+    auto nk_filter_oct_fptr     = &nk_filter_oct;
+    auto nk_filter_binary_fptr  = &nk_filter_binary;
+
     version(NK_INCLUDE_DEFAULT_ALLOCATOR) {
         void nk_textedit_init_default(nk_text_edit*);
     }

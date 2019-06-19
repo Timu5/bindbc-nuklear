@@ -475,17 +475,17 @@ overview(nk_context *ctx)
                 nk_layout_row(ctx, NK_STATIC, 25, 2, ratio2.ptr);
                 nk_label(ctx, "Default:", NK_TEXT_LEFT);
 
-                nk_edit_string(ctx, NK_EDIT_SIMPLE, text[0].ptr, &text_len[0], 64, nk_filter_default);
+                nk_edit_string(ctx, NK_EDIT_SIMPLE, text[0].ptr, &text_len[0], 64, nk_filter_default_fptr);
                 nk_label(ctx, "Int:", NK_TEXT_LEFT);
-                nk_edit_string(ctx, NK_EDIT_SIMPLE, text[1].ptr, &text_len[1], 64, nk_filter_decimal);
+                nk_edit_string(ctx, NK_EDIT_SIMPLE, text[1].ptr, &text_len[1], 64, nk_filter_decimal_fptr);
                 nk_label(ctx, "Float:", NK_TEXT_LEFT);
-                nk_edit_string(ctx, NK_EDIT_SIMPLE, text[2].ptr, &text_len[2], 64, nk_filter_float);
+                nk_edit_string(ctx, NK_EDIT_SIMPLE, text[2].ptr, &text_len[2], 64, nk_filter_float_fptr);
                 nk_label(ctx, "Hex:", NK_TEXT_LEFT);
-                nk_edit_string(ctx, NK_EDIT_SIMPLE, text[4].ptr, &text_len[4], 64, nk_filter_hex);
+                nk_edit_string(ctx, NK_EDIT_SIMPLE, text[4].ptr, &text_len[4], 64, nk_filter_hex_fptr);
                 nk_label(ctx, "Octal:", NK_TEXT_LEFT);
-                nk_edit_string(ctx, NK_EDIT_SIMPLE, text[5].ptr, &text_len[5], 64, nk_filter_oct);
+                nk_edit_string(ctx, NK_EDIT_SIMPLE, text[5].ptr, &text_len[5], 64, nk_filter_oct_fptr);
                 nk_label(ctx, "Binary:", NK_TEXT_LEFT);
-                nk_edit_string(ctx, NK_EDIT_SIMPLE, text[6].ptr, &text_len[6], 64, nk_filter_binary);
+                nk_edit_string(ctx, NK_EDIT_SIMPLE, text[6].ptr, &text_len[6], 64, nk_filter_binary_fptr);
 
                 nk_label(ctx, "Password:", NK_TEXT_LEFT);
                 {
@@ -493,20 +493,20 @@ overview(nk_context *ctx)
                     int old_len = text_len[8];
                     char[64] buffer;
                     for (i = 0; i < text_len[8]; ++i) buffer[i] = '*';
-                    nk_edit_string(ctx, NK_EDIT_FIELD, buffer.ptr, &text_len[8], 64, nk_filter_default);
+                    nk_edit_string(ctx, NK_EDIT_FIELD, buffer.ptr, &text_len[8], 64, nk_filter_default_fptr);
                     if (old_len < text_len[8])
                         memcpy(&text[8][old_len], &buffer[old_len], cast(nk_size)(text_len[8] - old_len));
                 }
 
                 nk_label(ctx, "Field:", NK_TEXT_LEFT);
-                nk_edit_string(ctx, NK_EDIT_FIELD, field_buffer.ptr, &field_len, 64, nk_filter_default);
+                nk_edit_string(ctx, NK_EDIT_FIELD, field_buffer.ptr, &field_len, 64, nk_filter_default_fptr);
 
                 nk_label(ctx, "Box:", NK_TEXT_LEFT);
                 nk_layout_row_static(ctx, 180, 278, 1);
-                nk_edit_string(ctx, NK_EDIT_BOX, box_buffer.ptr, &box_len, 512, nk_filter_default);
+                nk_edit_string(ctx, NK_EDIT_BOX, box_buffer.ptr, &box_len, 512, nk_filter_default_fptr);
 
                 nk_layout_row(ctx, NK_STATIC, 25, 2, ratio2.ptr);
-                active = nk_edit_string(ctx, NK_EDIT_FIELD|NK_EDIT_SIG_ENTER, text[7].ptr, &text_len[7], 64,  nk_filter_ascii);
+                active = nk_edit_string(ctx, NK_EDIT_FIELD|NK_EDIT_SIG_ENTER, text[7].ptr, &text_len[7], 64,  nk_filter_ascii_fptr);
                 if (nk_button_label(ctx, "Submit") ||
                     (active & NK_EDIT_COMMITED))
                 {

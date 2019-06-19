@@ -1032,13 +1032,49 @@ extern(C) @nogc nothrow {
         pnk_str_get_const nk_str_get_const;
         pnk_str_len nk_str_len;
         pnk_str_len_char nk_str_len_char;
-        pnk_filter_default nk_filter_default;
-        pnk_filter_ascii nk_filter_ascii;
-        pnk_filter_float nk_filter_float;
-        pnk_filter_decimal nk_filter_decimal;
-        pnk_filter_hex nk_filter_hex;
-        pnk_filter_oct nk_filter_oct;
-        pnk_filter_binary nk_filter_binary;
+        pnk_filter_default nk_filter_default_fptr;
+        pnk_filter_ascii   nk_filter_ascii_fptr;
+        pnk_filter_float   nk_filter_float_fptr;
+        pnk_filter_decimal nk_filter_decimal_fptr;
+        pnk_filter_hex     nk_filter_hex_fptr;
+        pnk_filter_oct     nk_filter_oct_fptr;
+        pnk_filter_binary  nk_filter_binary_fptr;
+
+        int nk_filter_default(const(nk_text_edit)* e, nk_rune unicode)
+        {
+            return nk_filter_default_fptr(e, unicode);
+        }
+
+        int nk_filter_ascii(const(nk_text_edit)* e, nk_rune unicode)
+        {
+            return nk_filter_ascii_fptr(e, unicode);
+        }
+
+        int nk_filter_float(const(nk_text_edit)* e, nk_rune unicode)
+        {
+            return nk_filter_float_fptr(e, unicode);
+        }
+
+        int nk_filter_decimal(const(nk_text_edit)* e, nk_rune unicode)
+        {
+            return nk_filter_decimal_fptr(e, unicode);
+        }
+
+        int nk_filter_hex(const(nk_text_edit)* e, nk_rune unicode)
+        {
+            return nk_filter_hex_fptr(e, unicode);
+        }
+
+        int nk_filter_oct(const(nk_text_edit)* e, nk_rune unicode)
+        {
+            return nk_filter_oct_fptr(e, unicode);
+        }
+
+        int nk_filter_binary(const(nk_text_edit)* e, nk_rune unicode)
+        {
+            return nk_filter_binary_fptr(e, unicode);
+        }
+
         version(NK_INCLUDE_DEFAULT_ALLOCATOR) {
             pnk_textedit_init_default nk_textedit_init_default;
         }
