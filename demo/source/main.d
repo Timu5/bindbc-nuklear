@@ -432,23 +432,32 @@ int main(string[] args)
 {
     int win_width= 1200;
     int win_height = 800;
-    NuklearSupport nuksup = loadNuklear();
-    if(nuksup != NuklearSupport.Nuklear4)
+
+    version(BindNuklear_Dynamic)
     {
-        printf("Error: Nuklear library is not found.");
-        return -1;
-    }
-    SDLSupport sdlsup = loadSDL();
-    if (sdlsup != sdlSupport)
-    {
-        if (sdlsup == SDLSupport.badLibrary)
-            printf("Warning: failed to load some SDL functions. It seems that you have an old version of SDL.");
-        else
+        NuklearSupport nuksup = loadNuklear();
+        if(nuksup != NuklearSupport.Nuklear4)
         {
-            printf("Error: SDL library is not found. Please, install SDL 2.0.5");
+            printf("Error: Nuklear library is not found.");
             return -1;
         }
     }
+
+    version(BindSDL_Dynamic)
+    {
+        SDLSupport sdlsup = loadSDL();
+        if (sdlsup != sdlSupport)
+        {
+            if (sdlsup == SDLSupport.badLibrary)
+                printf("Warning: failed to load some SDL functions. It seems that you have an old version of SDL.");
+            else
+            {
+                printf("Error: SDL library is not found. Please, install SDL 2.0.5");
+                return -1;
+            }
+        }
+    }
+
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
     {
         printf("Error: failed to init SDL: %s\n", SDL_GetError());
