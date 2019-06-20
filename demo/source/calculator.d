@@ -27,7 +27,7 @@ calculator(nk_context *ctx)
         nk_layout_row_dynamic(ctx, 35, 1);
 
         len = snprintf(buffer.ptr, 256, "%.2f", *current);
-        nk_edit_string(ctx, NK_EDIT_SIMPLE, buffer.ptr, &len, 255, nk_filter_float);
+        nk_edit_string(ctx, NK_EDIT_SIMPLE, buffer.ptr, &len, 255, &nk_filter_float);
 
         buffer[len] = 0;
         *current = atof(buffer.ptr);

@@ -443,17 +443,21 @@ int main(string[] args)
         }
     }
 
-    SDLSupport sdlsup = loadSDL();
-    if (sdlsup != sdlSupport)
+    version(BindSDL_Dynamic)
     {
-        if (sdlsup == SDLSupport.badLibrary)
-            printf("Warning: failed to load some SDL functions. It seems that you have an old version of SDL.");
-        else
+        SDLSupport sdlsup = loadSDL();
+        if (sdlsup != sdlSupport)
         {
-            printf("Error: SDL library is not found. Please, install SDL 2.0.5");
-            return -1;
+            if (sdlsup == SDLSupport.badLibrary)
+                printf("Warning: failed to load some SDL functions. It seems that you have an old version of SDL.");
+            else
+            {
+                printf("Error: SDL library is not found. Please, install SDL 2.0.5");
+                return -1;
+            }
         }
     }
+
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
     {
         printf("Error: failed to init SDL: %s\n", SDL_GetError());
