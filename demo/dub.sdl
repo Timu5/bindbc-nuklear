@@ -7,15 +7,15 @@ dependency "bindbc-opengl" version="~>0.9.0"
 dependency "bindbc-sdl" version="~>0.9.1"
 
 configuration "dynamic" {
-	targetType "executable"
-	subConfiguration "bindbc-nuklear" "dynamic"
-	subConfiguration "bindbc-sdl" "dynamic"
+    targetType "executable"
+    subConfiguration "bindbc-nuklear" "dynamic"
+    subConfiguration "bindbc-sdl" "dynamic"
 }
 
 configuration "static" {
-	targetType "executable"
-	subConfiguration "bindbc-nuklear" "static"
-	subConfiguration "bindbc-sdl" "static"
+    targetType "executable"
+    subConfiguration "bindbc-nuklear" "static"
+    subConfiguration "bindbc-sdl" "static"
 }
 
 versions "GL_30" "SDL_205" "NK_INCLUDE_FIXED_TYPES" "NK_INCLUDE_DEFAULT_ALLOCATOR" "NK_INCLUDE_STANDARD_IO" "NK_INCLUDE_STANDARD_VARARGS" "NK_INCLUDE_VERTEX_BUFFER_OUTPUT" "NK_INCLUDE_FONT_BAKING" "NK_INCLUDE_DEFAULT_FONT" "NK_INCLUDE_COMMAND_USERDATA" "NK_BUTTON_TRIGGER_ON_RELEASE" "NK_ZERO_COMMAND_MEMORY" "NK_UINT_DRAW_INDEX"
