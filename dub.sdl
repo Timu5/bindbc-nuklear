@@ -24,12 +24,12 @@ configuration "dynamicBC" {
 configuration "static" {
     versions "BindNuklear_Static"
     excludedSourceFiles "source/bindbc/nuklear/binddynamic.d"
-    lflags "-L$PACKAGE_DIR/lib" "-lnuklear_static" "-lSDL2"
+    lflags "-L$PACKAGE_DIR/lib" "-lnuklear_static" "-lSDL2" platform="posix"
 }
 
 configuration "staticBC" {
     dflags "-betterC"
     versions "BindNuklear_Static"
     excludedSourceFiles "source/bindbc/nuklear/binddynamic.d"
-    lflags "-L$PACKAGE_DIR/lib" "-lnuklear_static" "-lSDL2"
+    lflags "-L$PACKAGE_DIR/lib" "-lnuklear_static" "-lSDL2" platform="posix"
 }

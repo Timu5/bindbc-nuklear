@@ -4,7 +4,7 @@ authors "Mateusz Muszynski"
 license "BSL-1.0"
 dependency "bindbc-nuklear" path="./.."
 dependency "bindbc-opengl" version="~>0.9.0"
-dependency "bindbc-sdl" version="~>0.9.1"
+dependency "bindbc-sdl" version="~>0.10.1"
 
 configuration "dynamic" {
     targetType "executable"

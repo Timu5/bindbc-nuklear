@@ -433,7 +433,8 @@ int main(string[] args)
     int win_width= 1200;
     int win_height = 800;
 
-    version(BindNuklear_Dynamic)
+    version(BindNuklear_Static) {}
+    else
     {
         NuklearSupport nuksup = loadNuklear();
         if(nuksup != NuklearSupport.Nuklear4)
@@ -443,7 +444,8 @@ int main(string[] args)
         }
     }
 
-    version(BindSDL_Dynamic)
+    version(BindSDL_Static) {}
+    else
     {
         SDLSupport sdlsup = loadSDL();
         if (sdlsup != sdlSupport)

@@ -1661,13 +1661,13 @@ NuklearSupport loadNuklear(const(char)* libName)
     lib.bindSymbol(cast(void**)&nk_str_get_const,"nk_str_get_const");
     lib.bindSymbol(cast(void**)&nk_str_len,"nk_str_len");
     lib.bindSymbol(cast(void**)&nk_str_len_char,"nk_str_len_char");
-    lib.bindSymbol(cast(void**)&nk_filter_default,"nk_filter_default");
-    lib.bindSymbol(cast(void**)&nk_filter_ascii,"nk_filter_ascii");
-    lib.bindSymbol(cast(void**)&nk_filter_float,"nk_filter_float");
-    lib.bindSymbol(cast(void**)&nk_filter_decimal,"nk_filter_decimal");
-    lib.bindSymbol(cast(void**)&nk_filter_hex,"nk_filter_hex");
-    lib.bindSymbol(cast(void**)&nk_filter_oct,"nk_filter_oct");
-    lib.bindSymbol(cast(void**)&nk_filter_binary,"nk_filter_binary");
+    lib.bindSymbol(cast(void**)&nk_filter_default_fptr,"nk_filter_default");
+    lib.bindSymbol(cast(void**)&nk_filter_ascii_fptr,"nk_filter_ascii");
+    lib.bindSymbol(cast(void**)&nk_filter_float_fptr,"nk_filter_float");
+    lib.bindSymbol(cast(void**)&nk_filter_decimal_fptr,"nk_filter_decimal");
+    lib.bindSymbol(cast(void**)&nk_filter_hex_fptr,"nk_filter_hex");
+    lib.bindSymbol(cast(void**)&nk_filter_oct_fptr,"nk_filter_oct");
+    lib.bindSymbol(cast(void**)&nk_filter_binary_fptr,"nk_filter_binary");
     version(NK_INCLUDE_DEFAULT_ALLOCATOR) {
         lib.bindSymbol(cast(void**)&nk_textedit_init_default,"nk_textedit_init_default");
     }
