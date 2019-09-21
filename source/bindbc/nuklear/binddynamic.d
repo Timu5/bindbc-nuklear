@@ -77,6 +77,7 @@ extern(C) @nogc nothrow {
     alias pnk_window_get_content_region_max = nk_vec2 function(nk_context*);
     alias pnk_window_get_content_region_size = nk_vec2 function(nk_context*);
     alias pnk_window_get_canvas = nk_command_buffer* function(nk_context*);
+    alias pnk_window_get_scroll = void function(nk_context*, nk_uint *offset_x, nk_uint *offset_y);  // 4.01.0
     alias pnk_window_has_focus = int function(const(nk_context)*);
     alias pnk_window_is_hovered = int function(nk_context*);
     alias pnk_window_is_collapsed = int function(nk_context* ctx, const(char)* name);
@@ -89,6 +90,7 @@ extern(C) @nogc nothrow {
     alias pnk_window_set_position = void function(nk_context*, const(char)* name, nk_vec2 pos);
     alias pnk_window_set_size = void function(nk_context*, const(char)* name, nk_vec2);
     alias pnk_window_set_focus = void function(nk_context*, const(char)* name);
+    alias pnk_window_set_scroll = void function(nk_context*, nk_uint offset_x, nk_uint offset_y); // 4.01.0
     alias pnk_window_close = void function(nk_context* ctx, const(char)* name);
     alias pnk_window_collapse = void function(nk_context*, const(char)* name, nk_collapse_states state);
     alias pnk_window_collapse_if = void function(nk_context*, const(char)* name, nk_collapse_states, int cond);
@@ -123,6 +125,8 @@ extern(C) @nogc nothrow {
     alias pnk_group_scrolled_offset_begin = int function(nk_context*, nk_uint* x_offset, nk_uint* y_offset, const(char)* title, nk_flags flags);
     alias pnk_group_scrolled_begin = int function(nk_context*, nk_scroll* off, const(char)* title, nk_flags);
     alias pnk_group_scrolled_end = void function(nk_context*);
+    alias pnk_group_get_scroll = void function(nk_context*, const(char)* id, nk_uint* x_offset, nk_uint* y_offset); // 4.01.0
+    alias pnk_group_set_scroll = void function(nk_context*, const(char)* id, nk_uint x_offset, nk_uint y_offset); // 4.01.0
     alias pnk_tree_push_hashed = int function(nk_context*, nk_tree_type, const(char)* title, nk_collapse_states initial_state, const(char)* hash, int len, int seed);
     alias pnk_tree_image_push_hashed = int function(nk_context*, nk_tree_type, nk_image, const(char)* title, nk_collapse_states initial_state, const(char)* hash, int len, int seed);
     alias pnk_tree_pop = void function(nk_context*);
@@ -247,6 +251,8 @@ extern(C) @nogc nothrow {
     alias pnk_popup_begin = int function(nk_context*, nk_popup_type, const(char)*, nk_flags, nk_rect bounds);
     alias pnk_popup_close = void function(nk_context*);
     alias pnk_popup_end = void function(nk_context*);
+    alias pnk_popup_get_scroll = void function(nk_context* , nk_uint* offset_x, nk_uint* offset_y); // 4.01.0
+    alias pnk_popup_set_scroll = void function(nk_context* , nk_uint offset_x, nk_uint offset_y); // 4.01.0
     alias pnk_combo = int function(nk_context*, const(char)** items, int count, int selected, int item_height, nk_vec2 size);
     alias pnk_combo_separator = int function(nk_context*, const(char)* items_separated_by_separator, int separator, int selected, int count, int item_height, nk_vec2 size);
     alias pnk_combo_string = int function(nk_context*, const(char)* items_separated_by_zeros, int selected, int count, int item_height, nk_vec2 size);
@@ -621,6 +627,7 @@ extern(C) @nogc nothrow {
         pnk_window_get_content_region_max nk_window_get_content_region_max;
         pnk_window_get_content_region_size nk_window_get_content_region_size;
         pnk_window_get_canvas nk_window_get_canvas;
+        pnk_window_get_scroll nk_window_get_scroll; // 4.01.0
         pnk_window_has_focus nk_window_has_focus;
         pnk_window_is_hovered nk_window_is_hovered;
         pnk_window_is_collapsed nk_window_is_collapsed;
@@ -633,6 +640,7 @@ extern(C) @nogc nothrow {
         pnk_window_set_position nk_window_set_position;
         pnk_window_set_size nk_window_set_size;
         pnk_window_set_focus nk_window_set_focus;
+        pnk_window_set_scroll nk_window_set_scroll; // 4.01.0
         pnk_window_close nk_window_close;
         pnk_window_collapse nk_window_collapse;
         pnk_window_collapse_if nk_window_collapse_if;
@@ -667,6 +675,8 @@ extern(C) @nogc nothrow {
         pnk_group_scrolled_offset_begin nk_group_scrolled_offset_begin;
         pnk_group_scrolled_begin nk_group_scrolled_begin;
         pnk_group_scrolled_end nk_group_scrolled_end;
+        pnk_group_get_scroll nk_group_get_scroll; // 4.01.0
+        pnk_group_set_scroll nk_group_set_scroll; // 4.01.0
         pnk_tree_push_hashed nk_tree_push_hashed;
         pnk_tree_image_push_hashed nk_tree_image_push_hashed;
         pnk_tree_pop nk_tree_pop;
@@ -791,6 +801,8 @@ extern(C) @nogc nothrow {
         pnk_popup_begin nk_popup_begin;
         pnk_popup_close nk_popup_close;
         pnk_popup_end nk_popup_end;
+        pnk_popup_get_scroll nk_popup_get_scroll; // 4.01.0
+        pnk_popup_set_scroll nk_popup_set_scroll; // 4.01.0
         pnk_combo nk_combo;
         pnk_combo_separator nk_combo_separator;
         pnk_combo_string nk_combo_string;
@@ -1250,6 +1262,7 @@ NuklearSupport loadNuklear(const(char)* libName)
     lib.bindSymbol(cast(void**)&nk_window_get_content_region_max,"nk_window_get_content_region_max");
     lib.bindSymbol(cast(void**)&nk_window_get_content_region_size,"nk_window_get_content_region_size");
     lib.bindSymbol(cast(void**)&nk_window_get_canvas,"nk_window_get_canvas");
+    lib.bindSymbol(cast(void**)&nk_window_get_scroll,"nk_window_get_scroll"); // 4.01.0
     lib.bindSymbol(cast(void**)&nk_window_has_focus,"nk_window_has_focus");
     lib.bindSymbol(cast(void**)&nk_window_is_hovered,"nk_window_is_hovered");
     lib.bindSymbol(cast(void**)&nk_window_is_collapsed,"nk_window_is_collapsed");
@@ -1262,6 +1275,7 @@ NuklearSupport loadNuklear(const(char)* libName)
     lib.bindSymbol(cast(void**)&nk_window_set_position,"nk_window_set_position");
     lib.bindSymbol(cast(void**)&nk_window_set_size,"nk_window_set_size");
     lib.bindSymbol(cast(void**)&nk_window_set_focus,"nk_window_set_focus");
+    lib.bindSymbol(cast(void**)&nk_window_set_scroll,"nk_window_set_scroll"); // 4.01.0
     lib.bindSymbol(cast(void**)&nk_window_close,"nk_window_close");
     lib.bindSymbol(cast(void**)&nk_window_collapse,"nk_window_collapse");
     lib.bindSymbol(cast(void**)&nk_window_collapse_if,"nk_window_collapse_if");
@@ -1296,6 +1310,8 @@ NuklearSupport loadNuklear(const(char)* libName)
     lib.bindSymbol(cast(void**)&nk_group_scrolled_offset_begin,"nk_group_scrolled_offset_begin");
     lib.bindSymbol(cast(void**)&nk_group_scrolled_begin,"nk_group_scrolled_begin");
     lib.bindSymbol(cast(void**)&nk_group_scrolled_end,"nk_group_scrolled_end");
+    lib.bindSymbol(cast(void**)&nk_group_get_scroll,"nk_group_get_scroll"); // 4.01.0
+    lib.bindSymbol(cast(void**)&nk_group_set_scroll,"nk_group_set_scroll"); // 4.01.0
     lib.bindSymbol(cast(void**)&nk_tree_push_hashed,"nk_tree_push_hashed");
     lib.bindSymbol(cast(void**)&nk_tree_image_push_hashed,"nk_tree_image_push_hashed");
     lib.bindSymbol(cast(void**)&nk_tree_pop,"nk_tree_pop");
@@ -1420,6 +1436,8 @@ NuklearSupport loadNuklear(const(char)* libName)
     lib.bindSymbol(cast(void**)&nk_popup_begin,"nk_popup_begin");
     lib.bindSymbol(cast(void**)&nk_popup_close,"nk_popup_close");
     lib.bindSymbol(cast(void**)&nk_popup_end,"nk_popup_end");
+    lib.bindSymbol(cast(void**)&nk_popup_get_scroll,"nk_popup_get_scroll"); // 4.01.0
+    lib.bindSymbol(cast(void**)&nk_popup_set_scroll,"nk_popup_set_scroll"); // 4.01.0
     lib.bindSymbol(cast(void**)&nk_combo,"nk_combo");
     lib.bindSymbol(cast(void**)&nk_combo_separator,"nk_combo_separator");
     lib.bindSymbol(cast(void**)&nk_combo_string,"nk_combo_string");

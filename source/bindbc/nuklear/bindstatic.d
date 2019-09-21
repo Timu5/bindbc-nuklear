@@ -73,6 +73,7 @@ extern(C) @nogc nothrow {
     nk_vec2 nk_window_get_content_region_max(nk_context*);
     nk_vec2 nk_window_get_content_region_size(nk_context*);
     nk_command_buffer* nk_window_get_canvas(nk_context*);
+    void nk_window_get_scroll(nk_context*, nk_uint* offset_x, nk_uint* offset_y); // 4.01.0
     int nk_window_has_focus(const(nk_context)*);
     int nk_window_is_hovered(nk_context*);
     int nk_window_is_collapsed(nk_context* ctx, const(char)* name);
@@ -85,6 +86,7 @@ extern(C) @nogc nothrow {
     void nk_window_set_position(nk_context*, const(char)* name, nk_vec2 pos);
     void nk_window_set_size(nk_context*, const(char)* name, nk_vec2);
     void nk_window_set_focus(nk_context*, const(char)* name);
+    void nk_window_set_scroll(snk_context*, nk_uint offset_x, nk_uint offset_y); // 4.01.0
     void nk_window_close(nk_context* ctx, const(char)* name);
     void nk_window_collapse(nk_context*, const(char)* name, nk_collapse_states state);
     void nk_window_collapse_if(nk_context*, const(char)* name, nk_collapse_states, int cond);
@@ -119,6 +121,8 @@ extern(C) @nogc nothrow {
     int nk_group_scrolled_offset_begin(nk_context*, nk_uint* x_offset, nk_uint* y_offset, const(char)* title, nk_flags flags);
     int nk_group_scrolled_begin(nk_context*, nk_scroll* off, const(char)* title, nk_flags);
     void nk_group_scrolled_end(nk_context*);
+    void nk_group_get_scroll(nk_context*, const(char)* id, nk_uint *x_offset, nk_uint *y_offset); // 4.01.0
+    void nk_group_set_scroll(nk_context*, const(char)* id, nk_uint x_offset, nk_uint y_offset); // 4.01.0
     int nk_tree_push_hashed(nk_context*, nk_tree_type, const(char)* title, nk_collapse_states initial_state, const(char)* hash, int len, int seed);
     int nk_tree_image_push_hashed(nk_context*, nk_tree_type, nk_image, const(char)* title, nk_collapse_states initial_state, const(char)* hash, int len, int seed);
     void nk_tree_pop(nk_context*);
@@ -244,6 +248,8 @@ extern(C) @nogc nothrow {
     int nk_popup_begin(nk_context*, nk_popup_type, const(char)*, nk_flags, nk_rect bounds);
     void nk_popup_close(nk_context*);
     void nk_popup_end(nk_context*);
+    void nk_popup_get_scroll(nk_context*, nk_uint *offset_x, nk_uint *offset_y); // 4.01.0
+    void nk_popup_set_scroll(nk_context*, nk_uint offset_x, nk_uint offset_y); // 4.01.0
     int nk_combo(nk_context*, const(char)** items, int count, int selected, int item_height, nk_vec2 size);
     int nk_combo_separator(nk_context*, const(char)* items_separated_by_separator, int separator, int selected, int count, int item_height, nk_vec2 size);
     int nk_combo_string(nk_context*, const(char)* items_separated_by_zeros, int selected, int count, int item_height, nk_vec2 size);
