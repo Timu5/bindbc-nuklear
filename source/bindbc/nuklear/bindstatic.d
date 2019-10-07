@@ -86,7 +86,7 @@ extern(C) @nogc nothrow {
     void nk_window_set_position(nk_context*, const(char)* name, nk_vec2 pos);
     void nk_window_set_size(nk_context*, const(char)* name, nk_vec2);
     void nk_window_set_focus(nk_context*, const(char)* name);
-    void nk_window_set_scroll(snk_context*, nk_uint offset_x, nk_uint offset_y); // 4.01.0
+    void nk_window_set_scroll(nk_context*, nk_uint offset_x, nk_uint offset_y); // 4.01.0
     void nk_window_close(nk_context* ctx, const(char)* name);
     void nk_window_collapse(nk_context*, const(char)* name, nk_collapse_states state);
     void nk_window_collapse_if(nk_context*, const(char)* name, nk_collapse_states, int cond);
