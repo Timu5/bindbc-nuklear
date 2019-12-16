@@ -25,9 +25,11 @@ version (NK_ALL)
     version = NK_UINT_DRAW_INDEX;
 }
 
-alias nk_command_delegate = void delegate(const(nk_command)*);
-version(NK_INCLUDE_VERTEX_BUFFER_OUTPUT) {
-    alias nk_draw_command_delegate = void delegate(const(nk_draw_command)*);
+@nogc nothrow {
+    alias nk_command_delegate = void delegate(const(nk_command)*);
+    version(NK_INCLUDE_VERTEX_BUFFER_OUTPUT) {
+        alias nk_draw_command_delegate = void delegate(const(nk_draw_command)*);
+    }
 }
 
 pragma(inline, true) {
