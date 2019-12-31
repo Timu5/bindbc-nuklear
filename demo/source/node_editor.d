@@ -316,7 +316,7 @@ node_editor(nk_context *ctx)
 
             /* contextual menu */
             if (nk_contextual_begin(ctx, 0, nk_vec2(100, 220), nk_window_get_bounds(ctx))) {
-                const(char) *[]grid_option = ["Show Grid", "Hide Grid"];
+                const(char) *[2]grid_option = ["Show Grid", "Hide Grid"];
                 nk_layout_row_dynamic(ctx, 25, 1);
                 if (nk_contextual_item_label(ctx, "New", NK_TEXT_CENTERED))
                     node_editor_add(nodedit, "New", nk_rect(400, 260, 180, 220),

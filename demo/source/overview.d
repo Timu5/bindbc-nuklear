@@ -105,7 +105,7 @@ overview(nk_context *ctx)
                 state = (menu_state_ == menu_state.MENU_CHART) ? NK_MAXIMIZED: NK_MINIMIZED;
                 if (nk_tree_state_push(ctx, NK_TREE_TAB, "CHART", &state)) {
                     size_t i = 0;
-                    const(float)[] values=[26.0f,13.0f,30.0f,15.0f,25.0f,10.0f,20.0f,40.0f,12.0f,8.0f,22.0f,28.0f];
+                    const(float)[12] values=[26.0f,13.0f,30.0f,15.0f,25.0f,10.0f,20.0f,40.0f,12.0f,8.0f,22.0f,28.0f];
                     menu_state_ = menu_state.MENU_CHART;
                     nk_layout_row_dynamic(ctx, 150, 1);
                     nk_chart_begin(ctx, NK_CHART_COLUMN, cast(int)values.length, 0, 50);
@@ -219,7 +219,7 @@ overview(nk_context *ctx)
                 static int range_int_min = 0;
                 static int range_int_value = 2048;
                 static int range_int_max = 4096;
-                static const(float)[] ratio = [120, 150];
+                static const(float)[2] ratio = [120, 150];
 
                 nk_layout_row_static(ctx, 30, 100, 1);
                 nk_checkbox_label(ctx, "Checkbox", &checkbox);
@@ -354,7 +354,7 @@ overview(nk_context *ctx)
                 static nk_color combo_color = {130, 50, 50, 255};
                 static nk_colorf combo_color2 = {0.509f, 0.705f, 0.2f, 1.0f};
                 static size_t prog_a =  20, prog_b = 40, prog_c = 10, prog_d = 90;
-                static const(char)*[] weapons = ["Fist","Pistol","Shotgun","Plasma","BFG"];
+                static const(char)*[5] weapons = ["Fist","Pistol","Shotgun","Plasma","BFG"];
 
                 char[64] buffer;
                 size_t sum = 0;
@@ -365,7 +365,7 @@ overview(nk_context *ctx)
 
                 // slider color combobox 
                 if (nk_combo_begin_color(ctx, combo_color, nk_vec2(200,200))) {
-                    float[] ratios = [0.15f, 0.85f];
+                    float[2] ratios = [0.15f, 0.85f];
                     nk_layout_row(ctx, NK_DYNAMIC, 30, 2, ratios.ptr);
                     nk_label(ctx, "R:", NK_TEXT_LEFT);
                     combo_color.r = cast(nk_byte)nk_slide_int(ctx, 0, combo_color.r, 255, 5);
@@ -445,7 +445,7 @@ overview(nk_context *ctx)
                 sprintf(buffer.ptr, "%.1f", chart_selection);
                 if (nk_combo_begin_label(ctx, buffer.ptr, nk_vec2(200,250))) {
                     size_t i = 0;
-                    static const(float)[] values=[26.0f,13.0f,30.0f,15.0f,25.0f,10.0f,20.0f,40.0f, 12.0f, 8.0f, 22.0f, 28.0f, 5.0f];
+                    static const(float)[13] values=[26.0f,13.0f,30.0f,15.0f,25.0f,10.0f,20.0f,40.0f, 12.0f, 8.0f, 22.0f, 28.0f, 5.0f];
                     nk_layout_row_dynamic(ctx, 150, 1);
                     nk_chart_begin(ctx, NK_CHART_COLUMN, cast(int)values.length, 0, 50);
                     for (i = 0; i < values.length; ++i) {
@@ -463,7 +463,7 @@ overview(nk_context *ctx)
 
             if (nk_tree_push(ctx, NK_TREE_NODE, "Input", NK_MINIMIZED))
             {
-                static const(float)[] ratio2 = [120, 150];
+                static const(float)[2] ratio2 = [120, 150];
                 static char[64] field_buffer;
                 static char[9][64] text;
                 static int[9] text_len;
@@ -713,8 +713,8 @@ overview(nk_context *ctx)
         {
             if (nk_tree_push(ctx, NK_TREE_NODE, "Widget", NK_MINIMIZED))
             {
-                float[] ratio_two = [0.2f, 0.6f, 0.2f];
-                float[] width_two = [100, 200, 50];
+                float[3] ratio_two = [0.2f, 0.6f, 0.2f];
+                float[3] width_two = [100, 200, 50];
 
                 nk_layout_row_dynamic(ctx, 30, 1);
                 nk_label(ctx, "Dynamic fixed column layout with generated position and size:", NK_TEXT_LEFT);
@@ -871,7 +871,7 @@ overview(nk_context *ctx)
                 nk_rect bounds;
                 float step = (2*3.141592654f) / 32;
                 enum chart_type {CHART_LINE, CHART_HISTO, CHART_MIXED}
-                const(char) *[]names = ["Lines", "Columns", "Mixed"];
+                const(char) *[3]names = ["Lines", "Columns", "Mixed"];
                 float id = 0;
                 int i;
 
