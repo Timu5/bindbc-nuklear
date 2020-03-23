@@ -22139,7 +22139,7 @@ nk_tree_state_pop(struct nk_context *ctx)
 
     win = ctx->current;
     layout = win->layout;
-    layout->at_x -= ctx->style.tab.indent + ctx->style.window.padding.x;
+    layout->at_x -= ctx->style.tab.indent + (float)*layout->offset_x;
     layout->bounds.w += ctx->style.tab.indent + ctx->style.window.padding.x;
     NK_ASSERT(layout->row.tree_depth);
     layout->row.tree_depth--;
@@ -22823,11 +22823,8 @@ nk_widget_fitting(struct nk_rect *bounds, struct nk_context *ctx,
     struct nk_vec2 item_padding)
 {
     /* update the bounds to stand without padding  */
-    struct nk_window *win;
-    struct nk_style *style;
-    struct nk_panel *layout;
     enum nk_widget_layout_states state;
-    struct nk_vec2 panel_padding;
+    NK_UNUSED(item_padding);
 
     NK_ASSERT(ctx);
     NK_ASSERT(ctx->current);
@@ -22835,20 +22832,7 @@ nk_widget_fitting(struct nk_rect *bounds, struct nk_context *ctx,
     if (!ctx || !ctx->current || !ctx->current->layout)
         return NK_WIDGET_INVALID;
 
-    win = ctx->current;
-    style = &ctx->style;
-    layout = win->layout;
     state = nk_widget(bounds, ctx);
-
-    panel_padding = nk_panel_get_padding(style, layout->type);
-    if (layout->row.index == 1) {
-        bounds->w += panel_padding.x;
-        bounds->x -= panel_padding.x;
-    } else bounds->x -= item_padding.x;
-
-    if (layout->row.index == layout->row.columns)
-        bounds->w += panel_padding.x;
-    else bounds->w += item_padding.x;
     return state;
 }
 NK_API void
@@ -29110,6 +29094,9 @@ nk_tooltipfv(struct nk_context *ctx, const char *fmt, va_list args)
 ///    - [yy]: Minor version with non-breaking API and library changes
 ///    - [zz]: Bug fix version with no direct changes to API
 ///
+/// - 2020/03/22 (4.01.9) - Fix bug where layout state wasn't restored correctly after
+///                        popping a tree.
+/// - 2020/03/11 (4.01.8) - Fix bug where padding is subtracted from widget
 /// - 2020/03/06 (4.01.7) - Fix bug where width padding was applied twice
 /// - 2020/02/06 (4.01.6) - Update stb_truetype.h and stb_rect_pack.h and separate them
 /// - 2019/12/10 (4.01.5) - Fix off-by-one error in NK_INTERSECT
