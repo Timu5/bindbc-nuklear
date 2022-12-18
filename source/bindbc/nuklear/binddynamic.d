@@ -35,11 +35,11 @@ version(NK_INCLUDE_STANDARD_VARARGS) {
 
 extern(C) @nogc nothrow {
     version(NK_INCLUDE_DEFAULT_ALLOCATOR) {
-        alias pnk_init_default = int function(nk_context*, const(nk_user_font)*);
+        alias pnk_init_default = bool function(nk_context*, const(nk_user_font)*);
     }
-    alias pnk_init_fixed = int function(nk_context*, void* memory, nk_size size, const(nk_user_font)*);
-    alias pnk_init = int function(nk_context*, nk_allocator*, const(nk_user_font)*);
-    alias pnk_init_custom = int function(nk_context*, nk_buffer* cmds, nk_buffer* pool, const(nk_user_font)*);
+    alias pnk_init_fixed = bool function(nk_context*, void* memory, nk_size size, const(nk_user_font)*);
+    alias pnk_init = bool function(nk_context*, nk_allocator*, const(nk_user_font)*);
+    alias pnk_init_custom = bool function(nk_context*, nk_buffer* cmds, nk_buffer* pool, const(nk_user_font)*);
     alias pnk_clear = void function(nk_context*);
     alias pnk_free = void function(nk_context*);
     version(NK_INCLUDE_COMMAND_USERDATA) {
@@ -47,8 +47,8 @@ extern(C) @nogc nothrow {
     }
     alias pnk_input_begin = void function(nk_context*);
     alias pnk_input_motion = void function(nk_context*, int x, int y);
-    alias pnk_input_key = void function(nk_context*, nk_keys, int down);
-    alias pnk_input_button = void function(nk_context*, nk_buttons, int x, int y, int down);
+    alias pnk_input_key = void function(nk_context*, nk_keys, bool down);
+    alias pnk_input_button = void function(nk_context*, nk_buttons, int x, int y, bool down);
     alias pnk_input_scroll = void function(nk_context*, nk_vec2 val);
     alias pnk_input_char = void function(nk_context*, char);
     alias pnk_input_glyph = void function(nk_context*, const(char)*);
@@ -62,8 +62,8 @@ extern(C) @nogc nothrow {
         alias pnk__draw_end = const(nk_draw_command)* function(const(nk_context)*, const(nk_buffer)*);
         alias pnk__draw_next = const(nk_draw_command)* function(const(nk_draw_command)*, const(nk_buffer)*, const(nk_context)*);
     }
-    alias pnk_begin = int function(nk_context* ctx, const(char)* title, nk_rect bounds, nk_flags flags);
-    alias pnk_begin_titled = int function(nk_context* ctx, const(char)* name, const(char)* title, nk_rect bounds, nk_flags flags);
+    alias pnk_begin = bool function(nk_context* ctx, const(char)* title, nk_rect bounds, nk_flags flags);
+    alias pnk_begin_titled = bool function(nk_context* ctx, const(char)* name, const(char)* title, nk_rect bounds, nk_flags flags);
     alias pnk_end = void function(nk_context* ctx);
     alias pnk_window_find = nk_window* function(nk_context* ctx, const(char)* name);
     alias pnk_window_get_bounds = nk_rect function(const(nk_context)* ctx);
@@ -78,14 +78,14 @@ extern(C) @nogc nothrow {
     alias pnk_window_get_content_region_size = nk_vec2 function(nk_context*);
     alias pnk_window_get_canvas = nk_command_buffer* function(nk_context*);
     alias pnk_window_get_scroll = void function(nk_context*, nk_uint *offset_x, nk_uint *offset_y);  // 4.01.0
-    alias pnk_window_has_focus = int function(const(nk_context)*);
-    alias pnk_window_is_hovered = int function(nk_context*);
-    alias pnk_window_is_collapsed = int function(nk_context* ctx, const(char)* name);
-    alias pnk_window_is_closed = int function(nk_context*, const(char)*);
-    alias pnk_window_is_hidden = int function(nk_context*, const(char)*);
-    alias pnk_window_is_active = int function(nk_context*, const(char)*);
-    alias pnk_window_is_any_hovered = int function(nk_context*);
-    alias pnk_item_is_any_active = int function(nk_context*);
+    alias pnk_window_has_focus = bool function(const(nk_context)*);
+    alias pnk_window_is_hovered = bool function(nk_context*);
+    alias pnk_window_is_collapsed = bool function(nk_context* ctx, const(char)* name);
+    alias pnk_window_is_closed = bool function(nk_context*, const(char)*);
+    alias pnk_window_is_hidden = bool function(nk_context*, const(char)*);
+    alias pnk_window_is_active = bool function(nk_context*, const(char)*);
+    alias pnk_window_is_any_hovered = bool function(nk_context*);
+    alias pnk_item_is_any_active = bool function(nk_context*);
     alias pnk_window_set_bounds = void function(nk_context*, const(char)* name, nk_rect bounds);
     alias pnk_window_set_position = void function(nk_context*, const(char)* name, nk_vec2 pos);
     alias pnk_window_set_size = void function(nk_context*, const(char)* name, nk_vec2);
@@ -119,24 +119,25 @@ extern(C) @nogc nothrow {
     alias pnk_layout_space_to_local = nk_vec2 function(nk_context*, nk_vec2);
     alias pnk_layout_space_rect_to_screen = nk_rect function(nk_context*, nk_rect);
     alias pnk_layout_space_rect_to_local = nk_rect function(nk_context*, nk_rect);
-    alias pnk_group_begin = int function(nk_context*, const(char)* title, nk_flags);
-    alias pnk_group_begin_titled = int function(nk_context*, const(char)* name, const(char)* title, nk_flags);
+    alias pnk_spacer = void function(nk_context*);
+    alias pnk_group_begin = bool function(nk_context*, const(char)* title, nk_flags);
+    alias pnk_group_begin_titled = bool function(nk_context*, const(char)* name, const(char)* title, nk_flags);
     alias pnk_group_end = void function(nk_context*);
-    alias pnk_group_scrolled_offset_begin = int function(nk_context*, nk_uint* x_offset, nk_uint* y_offset, const(char)* title, nk_flags flags);
-    alias pnk_group_scrolled_begin = int function(nk_context*, nk_scroll* off, const(char)* title, nk_flags);
+    alias pnk_group_scrolled_offset_begin = bool function(nk_context*, nk_uint* x_offset, nk_uint* y_offset, const(char)* title, nk_flags flags);
+    alias pnk_group_scrolled_begin = bool function(nk_context*, nk_scroll* off, const(char)* title, nk_flags);
     alias pnk_group_scrolled_end = void function(nk_context*);
     alias pnk_group_get_scroll = void function(nk_context*, const(char)* id, nk_uint* x_offset, nk_uint* y_offset); // 4.01.0
     alias pnk_group_set_scroll = void function(nk_context*, const(char)* id, nk_uint x_offset, nk_uint y_offset); // 4.01.0
-    alias pnk_tree_push_hashed = int function(nk_context*, nk_tree_type, const(char)* title, nk_collapse_states initial_state, const(char)* hash, int len, int seed);
-    alias pnk_tree_image_push_hashed = int function(nk_context*, nk_tree_type, nk_image, const(char)* title, nk_collapse_states initial_state, const(char)* hash, int len, int seed);
+    alias pnk_tree_push_hashed = bool function(nk_context*, nk_tree_type, const(char)* title, nk_collapse_states initial_state, const(char)* hash, int len, int seed);
+    alias pnk_tree_image_push_hashed = bool function(nk_context*, nk_tree_type, nk_image, const(char)* title, nk_collapse_states initial_state, const(char)* hash, int len, int seed);
     alias pnk_tree_pop = void function(nk_context*);
-    alias pnk_tree_state_push = int function(nk_context*, nk_tree_type, const(char)* title, nk_collapse_states* state);
-    alias pnk_tree_state_image_push = int function(nk_context*, nk_tree_type, nk_image, const(char)* title, nk_collapse_states* state);
+    alias pnk_tree_state_push = bool function(nk_context*, nk_tree_type, const(char)* title, nk_collapse_states* state);
+    alias pnk_tree_state_image_push = bool function(nk_context*, nk_tree_type, nk_image, const(char)* title, nk_collapse_states* state);
     alias pnk_tree_state_pop = void function(nk_context*);
-    alias pnk_tree_element_push_hashed = int function(nk_context*, nk_tree_type, const(char)* title, nk_collapse_states initial_state, int* selected, const(char)* hash, int len, int seed);
-    alias pnk_tree_element_image_push_hashed = int function(nk_context*, nk_tree_type, nk_image, const(char)* title, nk_collapse_states initial_state, int* selected, const(char)* hash, int len, int seed);
+    alias pnk_tree_element_push_hashed = bool function(nk_context*, nk_tree_type, const(char)* title, nk_collapse_states initial_state, int* selected, const(char)* hash, int len, int seed);
+    alias pnk_tree_element_image_push_hashed = bool function(nk_context*, nk_tree_type, nk_image, const(char)* title, nk_collapse_states initial_state, int* selected, const(char)* hash, int len, int seed);
     alias pnk_tree_element_pop = void function(nk_context*);
-    alias pnk_list_view_begin = int function(nk_context*, nk_list_view* out_, const(char)* id, nk_flags, int row_height, int row_count);
+    alias pnk_list_view_begin = bool function(nk_context*, nk_list_view* out_, const(char)* id, nk_flags, int row_height, int row_count);
     alias pnk_list_view_end = void function(nk_list_view*);
     alias pnk_widget = nk_widget_layout_states function(nk_rect*, const(nk_context)*);
     alias pnk_widget_fitting = nk_widget_layout_states function(nk_rect*, nk_context*, nk_vec2);
@@ -145,9 +146,9 @@ extern(C) @nogc nothrow {
     alias pnk_widget_size = nk_vec2 function(nk_context*);
     alias pnk_widget_width = float function(nk_context*);
     alias pnk_widget_height = float function(nk_context*);
-    alias pnk_widget_is_hovered = int function(nk_context*);
-    alias pnk_widget_is_mouse_clicked = int function(nk_context*, nk_buttons);
-    alias pnk_widget_has_mouse_click_down = int function(nk_context*, nk_buttons, int down);
+    alias pnk_widget_is_hovered = bool function(nk_context*);
+    alias pnk_widget_is_mouse_clicked = bool function(nk_context*, nk_buttons);
+    alias pnk_widget_has_mouse_click_down = bool function(nk_context*, nk_buttons, bool down);
     alias pnk_spacing = void function(nk_context*, int cols);
     alias pnk_text = void function(nk_context*, const(char)*, int, nk_flags);
     alias pnk_text_colored = void function(nk_context*, const(char)*, int, nk_flags, nk_color);
@@ -176,56 +177,56 @@ extern(C) @nogc nothrow {
         alias pnk_value_color_float = void function(nk_context*, const(char)* prefix, nk_color);
         alias pnk_value_color_hex = void function(nk_context*, const(char)* prefix, nk_color);
     }
-    alias pnk_button_text = int function(nk_context*, const(char)* title, int len);
-    alias pnk_button_label = int function(nk_context*, const(char)* title);
-    alias pnk_button_color = int function(nk_context*, nk_color);
-    alias pnk_button_symbol = int function(nk_context*, nk_symbol_type);
-    alias pnk_button_image = int function(nk_context*, nk_image img);
-    alias pnk_button_symbol_label = int function(nk_context*, nk_symbol_type, const(char)*, nk_flags text_alignment);
-    alias pnk_button_symbol_text = int function(nk_context*, nk_symbol_type, const(char)*, int, nk_flags alignment);
-    alias pnk_button_image_label = int function(nk_context*, nk_image img, const(char)*, nk_flags text_alignment);
-    alias pnk_button_image_text = int function(nk_context*, nk_image img, const(char)*, int, nk_flags alignment);
-    alias pnk_button_text_styled = int function(nk_context*, const(nk_style_button)*, const(char)* title, int len);
-    alias pnk_button_label_styled = int function(nk_context*, const(nk_style_button)*, const(char)* title);
-    alias pnk_button_symbol_styled = int function(nk_context*, const(nk_style_button)*, nk_symbol_type);
-    alias pnk_button_image_styled = int function(nk_context*, const(nk_style_button)*, nk_image img);
-    alias pnk_button_symbol_text_styled = int function(nk_context*, const(nk_style_button)*, nk_symbol_type, const(char)*, int, nk_flags alignment);
-    alias pnk_button_symbol_label_styled = int function(nk_context* ctx, const(nk_style_button)* style, nk_symbol_type symbol, const(char)* title, nk_flags align_);
-    alias pnk_button_image_label_styled = int function(nk_context*, const(nk_style_button)*, nk_image img, const(char)*, nk_flags text_alignment);
-    alias pnk_button_image_text_styled = int function(nk_context*, const(nk_style_button)*, nk_image img, const(char)*, int, nk_flags alignment);
+    alias pnk_button_text = bool function(nk_context*, const(char)* title, int len);
+    alias pnk_button_label = bool function(nk_context*, const(char)* title);
+    alias pnk_button_color = bool function(nk_context*, nk_color);
+    alias pnk_button_symbol = bool function(nk_context*, nk_symbol_type);
+    alias pnk_button_image = bool function(nk_context*, nk_image img);
+    alias pnk_button_symbol_label = bool function(nk_context*, nk_symbol_type, const(char)*, nk_flags text_alignment);
+    alias pnk_button_symbol_text = bool function(nk_context*, nk_symbol_type, const(char)*, int, nk_flags alignment);
+    alias pnk_button_image_label = bool function(nk_context*, nk_image img, const(char)*, nk_flags text_alignment);
+    alias pnk_button_image_text = bool function(nk_context*, nk_image img, const(char)*, int, nk_flags alignment);
+    alias pnk_button_text_styled = bool function(nk_context*, const(nk_style_button)*, const(char)* title, int len);
+    alias pnk_button_label_styled = bool function(nk_context*, const(nk_style_button)*, const(char)* title);
+    alias pnk_button_symbol_styled = bool function(nk_context*, const(nk_style_button)*, nk_symbol_type);
+    alias pnk_button_image_styled = bool function(nk_context*, const(nk_style_button)*, nk_image img);
+    alias pnk_button_symbol_text_styled = bool function(nk_context*, const(nk_style_button)*, nk_symbol_type, const(char)*, int, nk_flags alignment);
+    alias pnk_button_symbol_label_styled = bool function(nk_context* ctx, const(nk_style_button)* style, nk_symbol_type symbol, const(char)* title, nk_flags align_);
+    alias pnk_button_image_label_styled = bool function(nk_context*, const(nk_style_button)*, nk_image img, const(char)*, nk_flags text_alignment);
+    alias pnk_button_image_text_styled = bool function(nk_context*, const(nk_style_button)*, nk_image img, const(char)*, int, nk_flags alignment);
     alias pnk_button_set_behavior = void function(nk_context*, nk_button_behavior);
-    alias pnk_button_push_behavior = int function(nk_context*, nk_button_behavior);
-    alias pnk_button_pop_behavior = int function(nk_context*);
-    alias pnk_check_label = int function(nk_context*, const(char)*, int active);
-    alias pnk_check_text = int function(nk_context*, const(char)*, int, int active);
+    alias pnk_button_push_behavior = bool function(nk_context*, nk_button_behavior);
+    alias pnk_button_pop_behavior = bool function(nk_context*);
+    alias pnk_check_label = bool function(nk_context*, const(char)*, bool active);
+    alias pnk_check_text = bool function(nk_context*, const(char)*, int, bool active);
     alias pnk_check_flags_label = uint function(nk_context*, const(char)*, uint flags, uint value);
     alias pnk_check_flags_text = uint function(nk_context*, const(char)*, int, uint flags, uint value);
-    alias pnk_checkbox_label = int function(nk_context*, const(char)*, int* active);
-    alias pnk_checkbox_text = int function(nk_context*, const(char)*, int, int* active);
-    alias pnk_checkbox_flags_label = int function(nk_context*, const(char)*, uint* flags, uint value);
-    alias pnk_checkbox_flags_text = int function(nk_context*, const(char)*, int, uint* flags, uint value);
-    alias pnk_radio_label = int function(nk_context*, const(char)*, int* active);
-    alias pnk_radio_text = int function(nk_context*, const(char)*, int, int* active);
-    alias pnk_option_label = int function(nk_context*, const(char)*, int active);
-    alias pnk_option_text = int function(nk_context*, const(char)*, int, int active);
-    alias pnk_selectable_label = int function(nk_context*, const(char)*, nk_flags align_, int* value);
-    alias pnk_selectable_text = int function(nk_context*, const(char)*, int, nk_flags align_, int* value);
-    alias pnk_selectable_image_label = int function(nk_context*, nk_image, const(char)*, nk_flags align_, int* value);
-    alias pnk_selectable_image_text = int function(nk_context*, nk_image, const(char)*, int, nk_flags align_, int* value);
-    alias pnk_selectable_symbol_label = int function(nk_context*, nk_symbol_type, const(char)*, nk_flags align_, int* value);
-    alias pnk_selectable_symbol_text = int function(nk_context*, nk_symbol_type, const(char)*, int, nk_flags align_, int* value);
-    alias pnk_select_label = int function(nk_context*, const(char)*, nk_flags align_, int value);
-    alias pnk_select_text = int function(nk_context*, const(char)*, int, nk_flags align_, int value);
-    alias pnk_select_image_label = int function(nk_context*, nk_image, const(char)*, nk_flags align_, int value);
-    alias pnk_select_image_text = int function(nk_context*, nk_image, const(char)*, int, nk_flags align_, int value);
-    alias pnk_select_symbol_label = int function(nk_context*, nk_symbol_type, const(char)*, nk_flags align_, int value);
-    alias pnk_select_symbol_text = int function(nk_context*, nk_symbol_type, const(char)*, int, nk_flags align_, int value);
+    alias pnk_checkbox_label = bool function(nk_context*, const(char)*, bool* active);
+    alias pnk_checkbox_text = bool function(nk_context*, const(char)*, int, bool* active);
+    alias pnk_checkbox_flags_label = bool function(nk_context*, const(char)*, uint* flags, uint value);
+    alias pnk_checkbox_flags_text = bool function(nk_context*, const(char)*, int, uint* flags, uint value);
+    alias pnk_radio_label = bool function(nk_context*, const(char)*, bool* active);
+    alias pnk_radio_text = bool function(nk_context*, const(char)*, int, bool* active);
+    alias pnk_option_label = bool function(nk_context*, const(char)*, bool active);
+    alias pnk_option_text = bool function(nk_context*, const(char)*, int, bool active);
+    alias pnk_selectable_label = bool function(nk_context*, const(char)*, nk_flags align_,  bool* value);
+    alias pnk_selectable_text = bool function(nk_context*, const(char)*, int, nk_flags align_,  bool* value);
+    alias pnk_selectable_image_label = bool function(nk_context*, nk_image, const(char)*, nk_flags align_,  bool* value);
+    alias pnk_selectable_image_text = bool function(nk_context*, nk_image, const(char)*, int, nk_flags align_,  bool* value);
+    alias pnk_selectable_symbol_label = bool function(nk_context*, nk_symbol_type, const(char)*, nk_flags align_,  bool* value);
+    alias pnk_selectable_symbol_text = bool function(nk_context*, nk_symbol_type, const(char)*, int, nk_flags align_,  bool* value);
+    alias pnk_select_label = bool function(nk_context*, const(char)*, nk_flags align_,  bool value);
+    alias pnk_select_text = bool function(nk_context*, const(char)*, int, nk_flags align_,  bool value);
+    alias pnk_select_image_label = bool function(nk_context*, nk_image, const(char)*, nk_flags align_,  bool value);
+    alias pnk_select_image_text = bool function(nk_context*, nk_image, const(char)*, int, nk_flags align_,  bool value);
+    alias pnk_select_symbol_label = bool function(nk_context*, nk_symbol_type, const(char)*, nk_flags align_,  bool value);
+    alias pnk_select_symbol_text = bool function(nk_context*, nk_symbol_type, const(char)*, int, nk_flags align_,  bool value);
     alias pnk_slide_float = float function(nk_context*, float min, float val, float max, float step);
     alias pnk_slide_int = int function(nk_context*, int min, int val, int max, int step);
-    alias pnk_slider_float = int function(nk_context*, float min, float* val, float max, float step);
-    alias pnk_slider_int = int function(nk_context*, int min, int* val, int max, int step);
-    alias pnk_progress = int function(nk_context*, nk_size* cur, nk_size max, int modifyable);
-    alias pnk_prog = nk_size function(nk_context*, nk_size cur, nk_size max, int modifyable);
+    alias pnk_slider_float = bool function(nk_context*, float min, float* val, float max, float step);
+    alias pnk_slider_int = bool function(nk_context*, int min, int* val, int max, int step);
+    alias pnk_progress = bool function(nk_context*, nk_size* cur, nk_size max, bool modifyable);
+    alias pnk_prog = nk_size function(nk_context*, nk_size cur, nk_size max, bool modifyable);
     alias pnk_color_picker = nk_colorf function(nk_context*, nk_colorf, nk_color_format);
     alias pnk_color_pick = int function(nk_context*, nk_colorf*, nk_color_format);
     alias pnk_property_int = void function(nk_context*, const(char)* name, int min, int* val, int max, int step, float inc_per_pixel);
@@ -239,8 +240,8 @@ extern(C) @nogc nothrow {
     alias pnk_edit_buffer = nk_flags function(nk_context*, nk_flags, nk_text_edit*, nk_plugin_filter);
     alias pnk_edit_focus = void function(nk_context*, nk_flags flags);
     alias pnk_edit_unfocus = void function(nk_context*);
-    alias pnk_chart_begin = int function(nk_context*, nk_chart_type, int num, float min, float max);
-    alias pnk_chart_begin_colored = int function(nk_context*, nk_chart_type, nk_color, nk_color active, int num, float min, float max);
+    alias pnk_chart_begin = bool function(nk_context*, nk_chart_type, int num, float min, float max);
+    alias pnk_chart_begin_colored = bool function(nk_context*, nk_chart_type, nk_color, nk_color active, int num, float min, float max);
     alias pnk_chart_add_slot = void function(nk_context* ctx, const(nk_chart_type), int count, float min_value, float max_value);
     alias pnk_chart_add_slot_colored = void function(nk_context* ctx, const(nk_chart_type), nk_color, nk_color active, int count, float min_value, float max_value);
     alias pnk_chart_push = nk_flags function(nk_context*, float);
@@ -248,43 +249,43 @@ extern(C) @nogc nothrow {
     alias pnk_chart_end = void function(nk_context*);
     alias pnk_plot = void function(nk_context*, nk_chart_type, const(float)* values, int count, int offset);
     alias pnk_plot_function = void function(nk_context*, nk_chart_type, void *userdata, float function(void* user, int index), int count, int offset);
-    alias pnk_popup_begin = int function(nk_context*, nk_popup_type, const(char)*, nk_flags, nk_rect bounds);
+    alias pnk_popup_begin = bool function(nk_context*, nk_popup_type, const(char)*, nk_flags, nk_rect bounds);
     alias pnk_popup_close = void function(nk_context*);
     alias pnk_popup_end = void function(nk_context*);
     alias pnk_popup_get_scroll = void function(nk_context* , nk_uint* offset_x, nk_uint* offset_y); // 4.01.0
     alias pnk_popup_set_scroll = void function(nk_context* , nk_uint offset_x, nk_uint offset_y); // 4.01.0
     alias pnk_combo = int function(nk_context*, const(char)** items, int count, int selected, int item_height, nk_vec2 size);
-    alias pnk_combo_separator = int function(nk_context*, const(char)* items_separated_by_separator, int separator, int selected, int count, int item_height, nk_vec2 size);
-    alias pnk_combo_string = int function(nk_context*, const(char)* items_separated_by_zeros, int selected, int count, int item_height, nk_vec2 size);
-    alias pnk_combo_callback = int function(nk_context*, void function(void*, int, const(char) **), void *userdata, int selected, int count, int item_height, nk_vec2 size);
+    alias pnk_combo_separator = void function(nk_context*, const(char)* items_separated_by_separator, int separator, int selected, int count, int item_height, nk_vec2 size);
+    alias pnk_combo_string = void function(nk_context*, const(char)* items_separated_by_zeros, int selected, int count, int item_height, nk_vec2 size);
+    alias pnk_combo_callback = void function(nk_context*, void function(void*, int, const(char) **), void *userdata, int selected, int count, int item_height, nk_vec2 size);
     alias pnk_combobox = void function(nk_context*, const(char)** items, int count, int* selected, int item_height, nk_vec2 size);
     alias pnk_combobox_string = void function(nk_context*, const(char)* items_separated_by_zeros, int* selected, int count, int item_height, nk_vec2 size);
     alias pnk_combobox_separator = void function(nk_context*, const(char)* items_separated_by_separator, int separator, int* selected, int count, int item_height, nk_vec2 size);
     alias pnk_combobox_callback = void function(nk_context*, void function(void*, int, const(char) **), void*, int *selected, int count, int item_height, nk_vec2 size);;
-    alias pnk_combo_begin_text = int function(nk_context*, const(char)* selected, int, nk_vec2 size);
-    alias pnk_combo_begin_label = int function(nk_context*, const(char)* selected, nk_vec2 size);
-    alias pnk_combo_begin_color = int function(nk_context*, nk_color color, nk_vec2 size);
-    alias pnk_combo_begin_symbol = int function(nk_context*, nk_symbol_type, nk_vec2 size);
-    alias pnk_combo_begin_symbol_label = int function(nk_context*, const(char)* selected, nk_symbol_type, nk_vec2 size);
-    alias pnk_combo_begin_symbol_text = int function(nk_context*, const(char)* selected, int, nk_symbol_type, nk_vec2 size);
-    alias pnk_combo_begin_image = int function(nk_context*, nk_image img, nk_vec2 size);
-    alias pnk_combo_begin_image_label = int function(nk_context*, const(char)* selected, nk_image, nk_vec2 size);
-    alias pnk_combo_begin_image_text = int function(nk_context*, const(char)* selected, int, nk_image, nk_vec2 size);
-    alias pnk_combo_item_label = int function(nk_context*, const(char)*, nk_flags alignment);
-    alias pnk_combo_item_text = int function(nk_context*, const(char)*, int, nk_flags alignment);
-    alias pnk_combo_item_image_label = int function(nk_context*, nk_image, const(char)*, nk_flags alignment);
-    alias pnk_combo_item_image_text = int function(nk_context*, nk_image, const(char)*, int, nk_flags alignment);
-    alias pnk_combo_item_symbol_label = int function(nk_context*, nk_symbol_type, const(char)*, nk_flags alignment);
-    alias pnk_combo_item_symbol_text = int function(nk_context*, nk_symbol_type, const(char)*, int, nk_flags alignment);
+    alias pnk_combo_begin_text = bool function(nk_context*, const(char)* selected, int, nk_vec2 size);
+    alias pnk_combo_begin_label = bool function(nk_context*, const(char)* selected, nk_vec2 size);
+    alias pnk_combo_begin_color = bool function(nk_context*, nk_color color, nk_vec2 size);
+    alias pnk_combo_begin_symbol = bool function(nk_context*, nk_symbol_type, nk_vec2 size);
+    alias pnk_combo_begin_symbol_label = bool function(nk_context*, const(char)* selected, nk_symbol_type, nk_vec2 size);
+    alias pnk_combo_begin_symbol_text = bool function(nk_context*, const(char)* selected, int, nk_symbol_type, nk_vec2 size);
+    alias pnk_combo_begin_image = bool function(nk_context*, nk_image img, nk_vec2 size);
+    alias pnk_combo_begin_image_label = bool function(nk_context*, const(char)* selected, nk_image, nk_vec2 size);
+    alias pnk_combo_begin_image_text = bool function(nk_context*, const(char)* selected, int, nk_image, nk_vec2 size);
+    alias pnk_combo_item_label = bool function(nk_context*, const(char)*, nk_flags alignment);
+    alias pnk_combo_item_text = bool function(nk_context*, const(char)*, int, nk_flags alignment);
+    alias pnk_combo_item_image_label = bool function(nk_context*, nk_image, const(char)*, nk_flags alignment);
+    alias pnk_combo_item_image_text = bool function(nk_context*, nk_image, const(char)*, int, nk_flags alignment);
+    alias pnk_combo_item_symbol_label = bool function(nk_context*, nk_symbol_type, const(char)*, nk_flags alignment);
+    alias pnk_combo_item_symbol_text = bool function(nk_context*, nk_symbol_type, const(char)*, int, nk_flags alignment);
     alias pnk_combo_close = void function(nk_context*);
     alias pnk_combo_end = void function(nk_context*);
-    alias pnk_contextual_begin = int function(nk_context*, nk_flags, nk_vec2, nk_rect trigger_bounds);
-    alias pnk_contextual_item_text = int function(nk_context*, const(char)*, int, nk_flags align_);
-    alias pnk_contextual_item_label = int function(nk_context*, const(char)*, nk_flags align_);
-    alias pnk_contextual_item_image_label = int function(nk_context*, nk_image, const(char)*, nk_flags alignment);
-    alias pnk_contextual_item_image_text = int function(nk_context*, nk_image, const(char)*, int len, nk_flags alignment);
-    alias pnk_contextual_item_symbol_label = int function(nk_context*, nk_symbol_type, const(char)*, nk_flags alignment);
-    alias pnk_contextual_item_symbol_text = int function(nk_context*, nk_symbol_type, const(char)*, int, nk_flags alignment);
+    alias pnk_contextual_begin = bool function(nk_context*, nk_flags, nk_vec2, nk_rect trigger_bounds);
+    alias pnk_contextual_item_text = bool function(nk_context*, const(char)*, int, nk_flags align_);
+    alias pnk_contextual_item_label = bool function(nk_context*, const(char)*, nk_flags align_);
+    alias pnk_contextual_item_image_label = bool function(nk_context*, nk_image, const(char)*, nk_flags alignment);
+    alias pnk_contextual_item_image_text = bool function(nk_context*, nk_image, const(char)*, int len, nk_flags alignment);
+    alias pnk_contextual_item_symbol_label = bool function(nk_context*, nk_symbol_type, const(char)*, nk_flags alignment);
+    alias pnk_contextual_item_symbol_text = bool function(nk_context*, nk_symbol_type, const(char)*, int, nk_flags alignment);
     alias pnk_contextual_close = void function(nk_context*);
     alias pnk_contextual_end = void function(nk_context*);
     alias pnk_tooltip = void function(nk_context*, const(char)*);
@@ -292,24 +293,24 @@ extern(C) @nogc nothrow {
         alias pnk_tooltipf = void function(nk_context*, const(char)*, ...);
         alias pnk_tooltipfv = void function(nk_context*, const(char)*, va_list);
     }
-    alias pnk_tooltip_begin = int function(nk_context*, float width);
+    alias pnk_tooltip_begin = bool function(nk_context*, float width);
     alias pnk_tooltip_end = void function(nk_context*);
     alias pnk_menubar_begin = void function(nk_context*);
     alias pnk_menubar_end = void function(nk_context*);
-    alias pnk_menu_begin_text = int function(nk_context*, const(char)* title, int title_len, nk_flags align_, nk_vec2 size);
-    alias pnk_menu_begin_label = int function(nk_context*, const(char)*, nk_flags align_, nk_vec2 size);
-    alias pnk_menu_begin_image = int function(nk_context*, const(char)*, nk_image, nk_vec2 size);
-    alias pnk_menu_begin_image_text = int function(nk_context*, const(char)*, int, nk_flags align_, nk_image, nk_vec2 size);
-    alias pnk_menu_begin_image_label = int function(nk_context*, const(char)*, nk_flags align_, nk_image, nk_vec2 size);
-    alias pnk_menu_begin_symbol = int function(nk_context*, const(char)*, nk_symbol_type, nk_vec2 size);
-    alias pnk_menu_begin_symbol_text = int function(nk_context*, const(char)*, int, nk_flags align_, nk_symbol_type, nk_vec2 size);
-    alias pnk_menu_begin_symbol_label = int function(nk_context*, const(char)*, nk_flags align_, nk_symbol_type, nk_vec2 size);
-    alias pnk_menu_item_text = int function(nk_context*, const(char)*, int, nk_flags align_);
-    alias pnk_menu_item_label = int function(nk_context*, const(char)*, nk_flags alignment);
-    alias pnk_menu_item_image_label = int function(nk_context*, nk_image, const(char)*, nk_flags alignment);
-    alias pnk_menu_item_image_text = int function(nk_context*, nk_image, const(char)*, int len, nk_flags alignment);
-    alias pnk_menu_item_symbol_text = int function(nk_context*, nk_symbol_type, const(char)*, int, nk_flags alignment);
-    alias pnk_menu_item_symbol_label = int function(nk_context*, nk_symbol_type, const(char)*, nk_flags alignment);
+    alias pnk_menu_begin_text = bool function(nk_context*, const(char)* title, int title_len, nk_flags align_, nk_vec2 size);
+    alias pnk_menu_begin_label = bool function(nk_context*, const(char)*, nk_flags align_, nk_vec2 size);
+    alias pnk_menu_begin_image = bool function(nk_context*, const(char)*, nk_image, nk_vec2 size);
+    alias pnk_menu_begin_image_text = bool function(nk_context*, const(char)*, int, nk_flags align_, nk_image, nk_vec2 size);
+    alias pnk_menu_begin_image_label = bool function(nk_context*, const(char)*, nk_flags align_, nk_image, nk_vec2 size);
+    alias pnk_menu_begin_symbol = bool function(nk_context*, const(char)*, nk_symbol_type, nk_vec2 size);
+    alias pnk_menu_begin_symbol_text = bool function(nk_context*, const(char)*, int, nk_flags align_, nk_symbol_type, nk_vec2 size);
+    alias pnk_menu_begin_symbol_label = bool function(nk_context*, const(char)*, nk_flags align_, nk_symbol_type, nk_vec2 size);
+    alias pnk_menu_item_text = bool function(nk_context*, const(char)*, int, nk_flags align_);
+    alias pnk_menu_item_label = bool function(nk_context*, const(char)*, nk_flags alignment);
+    alias pnk_menu_item_image_label = bool function(nk_context*, nk_image, const(char)*, nk_flags alignment);
+    alias pnk_menu_item_image_text = bool function(nk_context*, nk_image, const(char)*, int len, nk_flags alignment);
+    alias pnk_menu_item_symbol_text = bool function(nk_context*, nk_symbol_type, const(char)*, int, nk_flags alignment);
+    alias pnk_menu_item_symbol_label = bool function(nk_context*, nk_symbol_type, const(char)*, nk_flags alignment);
     alias pnk_menu_close = void function(nk_context*);
     alias pnk_menu_end = void function(nk_context*);
     alias pnk_style_default = void function(nk_context*);
@@ -318,21 +319,21 @@ extern(C) @nogc nothrow {
     alias pnk_style_load_all_cursors = void function(nk_context*, nk_cursor*);
     alias pnk_style_get_color_by_name = const(char)* function(nk_style_colors);
     alias pnk_style_set_font = void function(nk_context*, const(nk_user_font)*);
-    alias pnk_style_set_cursor = int function(nk_context*, nk_style_cursor);
+    alias pnk_style_set_cursor = bool function(nk_context*, nk_style_cursor);
     alias pnk_style_show_cursor = void function(nk_context*);
     alias pnk_style_hide_cursor = void function(nk_context*);
-    alias pnk_style_push_font = int function(nk_context*, const(nk_user_font)*);
-    alias pnk_style_push_float = int function(nk_context*, float*, float);
-    alias pnk_style_push_vec2 = int function(nk_context*, nk_vec2*, nk_vec2);
-    alias pnk_style_push_style_item = int function(nk_context*, nk_style_item*, nk_style_item);
-    alias pnk_style_push_flags = int function(nk_context*, nk_flags*, nk_flags);
-    alias pnk_style_push_color = int function(nk_context*, nk_color*, nk_color);
-    alias pnk_style_pop_font = int function(nk_context*);
-    alias pnk_style_pop_float = int function(nk_context*);
-    alias pnk_style_pop_vec2 = int function(nk_context*);
-    alias pnk_style_pop_style_item = int function(nk_context*);
-    alias pnk_style_pop_flags = int function(nk_context*);
-    alias pnk_style_pop_color = int function(nk_context*);
+    alias pnk_style_push_font = bool function(nk_context*, const(nk_user_font)*);
+    alias pnk_style_push_float = bool function(nk_context*, float*, float);
+    alias pnk_style_push_vec2 = bool function(nk_context*, nk_vec2*, nk_vec2);
+    alias pnk_style_push_style_item = bool function(nk_context*, nk_style_item*, nk_style_item);
+    alias pnk_style_push_flags = bool function(nk_context*, nk_flags*, nk_flags);
+    alias pnk_style_push_color = bool function(nk_context*, nk_color*, nk_color);
+    alias pnk_style_pop_font = bool function(nk_context*);
+    alias pnk_style_pop_float = bool function(nk_context*);
+    alias pnk_style_pop_vec2 = bool function(nk_context*);
+    alias pnk_style_pop_style_item = bool function(nk_context*);
+    alias pnk_style_pop_flags = bool function(nk_context*);
+    alias pnk_style_pop_color = bool function(nk_context*);
     alias pnk_rgb = nk_color function(int r, int g, int b);
     alias pnk_rgb_iv = nk_color function(const(int)* rgb);
     alias pnk_rgb_bv = nk_color function(const(nk_byte)* rgb);
@@ -387,10 +388,22 @@ extern(C) @nogc nothrow {
     alias pnk_image_handle = nk_image function(nk_handle);
     alias pnk_image_ptr = nk_image function(void*);
     alias pnk_image_id = nk_image function(int);
-    alias pnk_image_is_subimage = int function(const(nk_image)* img);
+    alias pnk_image_is_subimage = bool function(const(nk_image)* img);
     alias pnk_subimage_ptr = nk_image function(void*, ushort w, ushort h, nk_rect sub_region);
     alias pnk_subimage_id = nk_image function(int, ushort w, ushort h, nk_rect sub_region);
     alias pnk_subimage_handle = nk_image function(nk_handle, ushort w, ushort h, nk_rect sub_region);
+    // slice here
+    
+    alias pnk_nine_slice_handle = nk_nine_slice function(nk_handle, nk_ushort l, nk_ushort t, nk_ushort r, nk_ushort b);
+    alias pnk_nine_slice_ptr = nk_nine_slice function(void*, nk_ushort l, nk_ushort t, nk_ushort r, nk_ushort b);
+    alias pnk_nine_slice_id = nk_nine_slice function(int, nk_ushort l, nk_ushort t, nk_ushort r, nk_ushort b);
+    alias pnk_nine_slice_is_sub9slice = int function(const(nk_nine_slice)* img);
+    alias pnk_sub9slice_ptr = nk_nine_slice function(void*, nk_ushort w, nk_ushort h, nk_rect sub_region, nk_ushort l, nk_ushort t, nk_ushort r, nk_ushort b);
+    alias pnk_sub9slice_id = nk_nine_slice function(int, nk_ushort w, nk_ushort h, nk_rect sub_region, nk_ushort l, nk_ushort t, nk_ushort r, nk_ushort b);
+    alias pnk_sub9slice_handle = nk_nine_slice function(nk_handle, nk_ushort w, nk_ushort h,  nk_rect sub_region, nk_ushort l, nk_ushort t, nk_ushort r, nk_ushort b);
+
+
+
     alias pnk_murmur_hash = nk_hash function(const(void)* key, int len, nk_hash seed);
     alias pnk_triangle_from_direction = void function(nk_vec2* result, nk_rect r, float pad_x, float pad_y, nk_heading);
     alias pnk_vec2 = nk_vec2 function(float x, float y);
@@ -494,13 +507,13 @@ extern(C) @nogc nothrow {
     alias pnk_str_get_const = const(char)* function(const(nk_str)*);
     alias pnk_str_len = int function(nk_str*);
     alias pnk_str_len_char = int function(nk_str*);
-    alias pnk_filter_default = int function(const(nk_text_edit)*, nk_rune unicode);
-    alias pnk_filter_ascii = int function(const(nk_text_edit)*, nk_rune unicode);
-    alias pnk_filter_float = int function(const(nk_text_edit)*, nk_rune unicode);
-    alias pnk_filter_decimal = int function(const(nk_text_edit)*, nk_rune unicode);
-    alias pnk_filter_hex = int function(const(nk_text_edit)*, nk_rune unicode);
-    alias pnk_filter_oct = int function(const(nk_text_edit)*, nk_rune unicode);
-    alias pnk_filter_binary = int function(const(nk_text_edit)*, nk_rune unicode);
+    alias pnk_filter_default = bool function(const(nk_text_edit)*, nk_rune unicode);
+    alias pnk_filter_ascii = bool function(const(nk_text_edit)*, nk_rune unicode);
+    alias pnk_filter_float = bool function(const(nk_text_edit)*, nk_rune unicode);
+    alias pnk_filter_decimal = bool function(const(nk_text_edit)*, nk_rune unicode);
+    alias pnk_filter_hex = bool function(const(nk_text_edit)*, nk_rune unicode);
+    alias pnk_filter_oct = bool function(const(nk_text_edit)*, nk_rune unicode);
+    alias pnk_filter_binary = bool function(const(nk_text_edit)*, nk_rune unicode);
     version(NK_INCLUDE_DEFAULT_ALLOCATOR) {
         alias pnk_textedit_init_default = void function(nk_text_edit*);
     }
@@ -511,8 +524,8 @@ extern(C) @nogc nothrow {
     alias pnk_textedit_delete = void function(nk_text_edit*, int where, int len);
     alias pnk_textedit_delete_selection = void function(nk_text_edit*);
     alias pnk_textedit_select_all = void function(nk_text_edit*);
-    alias pnk_textedit_cut = int function(nk_text_edit*);
-    alias pnk_textedit_paste = int function(nk_text_edit*, const(char)*, int);
+    alias pnk_textedit_cut = bool function(nk_text_edit*);
+    alias pnk_textedit_paste = bool function(nk_text_edit*, const(char)*, int);
     alias pnk_textedit_undo = void function(nk_text_edit*);
     alias pnk_textedit_redo = void function(nk_text_edit*);
     alias pnk_stroke_line = void function(nk_command_buffer* b, float x0, float y0, float x1, float y1, float line_thickness, nk_color);
@@ -530,24 +543,26 @@ extern(C) @nogc nothrow {
     alias pnk_fill_triangle = void function(nk_command_buffer*, float x0, float y0, float x1, float y1, float x2, float y2, nk_color);
     alias pnk_fill_polygon = void function(nk_command_buffer*, float*, int point_count, nk_color);
     alias pnk_draw_image = void function(nk_command_buffer*, nk_rect, const(nk_image)*, nk_color);
+    alias pnk_draw_nine_slice = void function(nk_command_buffer*, nk_rect, const(nk_nine_slice)*, nk_color);
     alias pnk_draw_text = void function(nk_command_buffer*, nk_rect, const(char)* text, int len, const(nk_user_font)*, nk_color, nk_color);
     alias pnk_push_scissor = void function(nk_command_buffer*, nk_rect);
     alias pnk_push_custom = void function(nk_command_buffer*, nk_rect, nk_command_custom_callback, nk_handle usr);
-    alias pnk_input_has_mouse_click = int function(const(nk_input)*, nk_buttons);
-    alias pnk_input_has_mouse_click_in_rect = int function(const(nk_input)*, nk_buttons, nk_rect);
-    alias pnk_input_has_mouse_click_down_in_rect = int function(const(nk_input)*, nk_buttons, nk_rect, int down);
-    alias pnk_input_is_mouse_click_in_rect = int function(const(nk_input)*, nk_buttons, nk_rect);
-    alias pnk_input_is_mouse_click_down_in_rect = int function(const(nk_input)* i, nk_buttons id, nk_rect b, int down);
-    alias pnk_input_any_mouse_click_in_rect = int function(const(nk_input)*, nk_rect);
-    alias pnk_input_is_mouse_prev_hovering_rect = int function(const(nk_input)*, nk_rect);
-    alias pnk_input_is_mouse_hovering_rect = int function(const(nk_input)*, nk_rect);
-    alias pnk_input_mouse_clicked = int function(const(nk_input)*, nk_buttons, nk_rect);
-    alias pnk_input_is_mouse_down = int function(const(nk_input)*, nk_buttons);
-    alias pnk_input_is_mouse_pressed = int function(const(nk_input)*, nk_buttons);
-    alias pnk_input_is_mouse_released = int function(const(nk_input)*, nk_buttons);
-    alias pnk_input_is_key_pressed = int function(const(nk_input)*, nk_keys);
-    alias pnk_input_is_key_released = int function(const(nk_input)*, nk_keys);
-    alias pnk_input_is_key_down = int function(const(nk_input)*, nk_keys);
+    alias pnk_input_has_mouse_click = bool function(const(nk_input)*, nk_buttons);
+    alias pnk_input_has_mouse_click_in_rect = bool function(const(nk_input)*, nk_buttons, nk_rect);
+    alias pnk_input_has_mouse_click_in_button_rect = bool function(const(nk_input)*, nk_buttons, nk_rect);
+    alias pnk_input_has_mouse_click_down_in_rect = bool function(const(nk_input)*, nk_buttons, nk_rect, bool down);
+    alias pnk_input_is_mouse_click_in_rect = bool function(const(nk_input)*, nk_buttons, nk_rect);
+    alias pnk_input_is_mouse_click_down_in_rect = bool function(const(nk_input)* i, nk_buttons id, nk_rect b, bool down);
+    alias pnk_input_any_mouse_click_in_rect = bool function(const(nk_input)*, nk_rect);
+    alias pnk_input_is_mouse_prev_hovering_rect = bool function(const(nk_input)*, nk_rect);
+    alias pnk_input_is_mouse_hovering_rect = bool function(const(nk_input)*, nk_rect);
+    alias pnk_input_mouse_clicked = bool function(const(nk_input)*, nk_buttons, nk_rect);
+    alias pnk_input_is_mouse_down = bool function(const(nk_input)*, nk_buttons);
+    alias pnk_input_is_mouse_pressed = bool function(const(nk_input)*, nk_buttons);
+    alias pnk_input_is_mouse_released = bool function(const(nk_input)*, nk_buttons);
+    alias pnk_input_is_key_pressed = bool function(const(nk_input)*, nk_keys);
+    alias pnk_input_is_key_released = bool function(const(nk_input)*, nk_keys);
+    alias pnk_input_is_key_down = bool function(const(nk_input)*, nk_keys);
     version(NK_INCLUDE_VERTEX_BUFFER_OUTPUT) {
         alias pnk_draw_list_init = void function(nk_draw_list*);
         alias pnk_draw_list_setup = void function(nk_draw_list*, const(nk_convert_config)*, nk_buffer* cmds, nk_buffer* vertices, nk_buffer* elements, nk_anti_aliasing line_aa, nk_anti_aliasing shape_aa);
@@ -581,6 +596,7 @@ extern(C) @nogc nothrow {
     }
     alias pnk_style_item_image = nk_style_item function(nk_image img);
     alias pnk_style_item_color = nk_style_item function(nk_color);
+    alias pnk_style_item_nine_slice = nk_style_item function(nk_nine_slice slice);
     alias pnk_style_item_hide = nk_style_item function();
 
     __gshared {
@@ -669,6 +685,7 @@ extern(C) @nogc nothrow {
         pnk_layout_space_to_local nk_layout_space_to_local;
         pnk_layout_space_rect_to_screen nk_layout_space_rect_to_screen;
         pnk_layout_space_rect_to_local nk_layout_space_rect_to_local;
+        pnk_spacer nk_spacer;
         pnk_group_begin nk_group_begin;
         pnk_group_begin_titled nk_group_begin_titled;
         pnk_group_end nk_group_end;
@@ -941,6 +958,19 @@ extern(C) @nogc nothrow {
         pnk_subimage_ptr nk_subimage_ptr;
         pnk_subimage_id nk_subimage_id;
         pnk_subimage_handle nk_subimage_handle;
+
+        // slice
+
+        pnk_nine_slice_handle nk_nine_slice_handle;
+        pnk_nine_slice_ptr nk_nine_slice_ptr;
+        pnk_nine_slice_id nk_nine_slice_id;
+        pnk_nine_slice_is_sub9slice nk_nine_slice_is_sub9slice;
+        pnk_sub9slice_ptr nk_sub9slice_ptr;
+        pnk_sub9slice_id nk_sub9slice_id;
+        pnk_sub9slice_handle nk_sub9slice_handle;
+
+
+
         pnk_murmur_hash nk_murmur_hash;
         pnk_triangle_from_direction nk_triangle_from_direction;
         pnk_vec2 nk_vec2_;
@@ -1052,37 +1082,37 @@ extern(C) @nogc nothrow {
         pnk_filter_oct     nk_filter_oct_fptr;
         pnk_filter_binary  nk_filter_binary_fptr;
 
-        int nk_filter_default(const(nk_text_edit)* e, nk_rune unicode)
+        bool nk_filter_default(const(nk_text_edit)* e, nk_rune unicode)
         {
             return nk_filter_default_fptr(e, unicode);
         }
 
-        int nk_filter_ascii(const(nk_text_edit)* e, nk_rune unicode)
+        bool nk_filter_ascii(const(nk_text_edit)* e, nk_rune unicode)
         {
             return nk_filter_ascii_fptr(e, unicode);
         }
 
-        int nk_filter_float(const(nk_text_edit)* e, nk_rune unicode)
+        bool nk_filter_float(const(nk_text_edit)* e, nk_rune unicode)
         {
             return nk_filter_float_fptr(e, unicode);
         }
 
-        int nk_filter_decimal(const(nk_text_edit)* e, nk_rune unicode)
+        bool nk_filter_decimal(const(nk_text_edit)* e, nk_rune unicode)
         {
             return nk_filter_decimal_fptr(e, unicode);
         }
 
-        int nk_filter_hex(const(nk_text_edit)* e, nk_rune unicode)
+        bool nk_filter_hex(const(nk_text_edit)* e, nk_rune unicode)
         {
             return nk_filter_hex_fptr(e, unicode);
         }
 
-        int nk_filter_oct(const(nk_text_edit)* e, nk_rune unicode)
+        bool nk_filter_oct(const(nk_text_edit)* e, nk_rune unicode)
         {
             return nk_filter_oct_fptr(e, unicode);
         }
 
-        int nk_filter_binary(const(nk_text_edit)* e, nk_rune unicode)
+        bool nk_filter_binary(const(nk_text_edit)* e, nk_rune unicode)
         {
             return nk_filter_binary_fptr(e, unicode);
         }
@@ -1116,11 +1146,13 @@ extern(C) @nogc nothrow {
         pnk_fill_triangle nk_fill_triangle;
         pnk_fill_polygon nk_fill_polygon;
         pnk_draw_image nk_draw_image;
+        pnk_draw_nine_slice nk_draw_nine_slice;
         pnk_draw_text nk_draw_text;
         pnk_push_scissor nk_push_scissor;
         pnk_push_custom nk_push_custom;
         pnk_input_has_mouse_click nk_input_has_mouse_click;
         pnk_input_has_mouse_click_in_rect nk_input_has_mouse_click_in_rect;
+        pnk_input_has_mouse_click_in_button_rect nk_input_has_mouse_click_in_button_rect;
         pnk_input_has_mouse_click_down_in_rect nk_input_has_mouse_click_down_in_rect;
         pnk_input_is_mouse_click_in_rect nk_input_is_mouse_click_in_rect;
         pnk_input_is_mouse_click_down_in_rect nk_input_is_mouse_click_down_in_rect;
@@ -1167,6 +1199,7 @@ extern(C) @nogc nothrow {
         }
         pnk_style_item_image nk_style_item_image;
         pnk_style_item_color nk_style_item_color;
+        pnk_style_item_nine_slice nk_style_item_nine_slice;
         pnk_style_item_hide nk_style_item_hide;
     }
 }
@@ -1304,6 +1337,7 @@ NuklearSupport loadNuklear(const(char)* libName)
     lib.bindSymbol(cast(void**)&nk_layout_space_to_local,"nk_layout_space_to_local");
     lib.bindSymbol(cast(void**)&nk_layout_space_rect_to_screen,"nk_layout_space_rect_to_screen");
     lib.bindSymbol(cast(void**)&nk_layout_space_rect_to_local,"nk_layout_space_rect_to_local");
+    lib.bindSymbol(cast(void**)&nk_spacer, "nk_spacer");
     lib.bindSymbol(cast(void**)&nk_group_begin,"nk_group_begin");
     lib.bindSymbol(cast(void**)&nk_group_begin_titled,"nk_group_begin_titled");
     lib.bindSymbol(cast(void**)&nk_group_end,"nk_group_end");
@@ -1576,6 +1610,16 @@ NuklearSupport loadNuklear(const(char)* libName)
     lib.bindSymbol(cast(void**)&nk_subimage_ptr,"nk_subimage_ptr");
     lib.bindSymbol(cast(void**)&nk_subimage_id,"nk_subimage_id");
     lib.bindSymbol(cast(void**)&nk_subimage_handle,"nk_subimage_handle");
+    
+    lib.bindSymbol(cast(void**)&nk_nine_slice_handle, "nk_nine_slice_handle");
+    lib.bindSymbol(cast(void**)&nk_nine_slice_ptr, "nk_nine_slice_ptr");
+    lib.bindSymbol(cast(void**)&nk_nine_slice_id, "nk_nine_slice_id");
+    lib.bindSymbol(cast(void**)&nk_nine_slice_is_sub9slice, "nk_nine_slice_is_sub9slice");
+    lib.bindSymbol(cast(void**)&nk_sub9slice_ptr, "nk_sub9slice_ptr");
+    lib.bindSymbol(cast(void**)&nk_sub9slice_id, "nk_sub9slice_id");
+    lib.bindSymbol(cast(void**)&nk_sub9slice_handle, "nk_sub9slice_handle");
+    
+    
     lib.bindSymbol(cast(void**)&nk_murmur_hash,"nk_murmur_hash");
     lib.bindSymbol(cast(void**)&nk_triangle_from_direction,"nk_triangle_from_direction");
     lib.bindSymbol(cast(void**)&nk_vec2_,"nk_vec2");
@@ -1715,11 +1759,13 @@ NuklearSupport loadNuklear(const(char)* libName)
     lib.bindSymbol(cast(void**)&nk_fill_triangle,"nk_fill_triangle");
     lib.bindSymbol(cast(void**)&nk_fill_polygon,"nk_fill_polygon");
     lib.bindSymbol(cast(void**)&nk_draw_image,"nk_draw_image");
+    lib.bindSymbol(cast(void**)&nk_draw_nine_slice,"nk_draw_nine_slice");
     lib.bindSymbol(cast(void**)&nk_draw_text,"nk_draw_text");
     lib.bindSymbol(cast(void**)&nk_push_scissor,"nk_push_scissor");
     lib.bindSymbol(cast(void**)&nk_push_custom,"nk_push_custom");
     lib.bindSymbol(cast(void**)&nk_input_has_mouse_click,"nk_input_has_mouse_click");
     lib.bindSymbol(cast(void**)&nk_input_has_mouse_click_in_rect,"nk_input_has_mouse_click_in_rect");
+    lib.bindSymbol(cast(void**)&nk_input_has_mouse_click_in_button_rect,"nk_input_has_mouse_click_in_button_rect");
     lib.bindSymbol(cast(void**)&nk_input_has_mouse_click_down_in_rect,"nk_input_has_mouse_click_down_in_rect");
     lib.bindSymbol(cast(void**)&nk_input_is_mouse_click_in_rect,"nk_input_is_mouse_click_in_rect");
     lib.bindSymbol(cast(void**)&nk_input_is_mouse_click_down_in_rect,"nk_input_is_mouse_click_down_in_rect");
@@ -1766,6 +1812,8 @@ NuklearSupport loadNuklear(const(char)* libName)
     }
     lib.bindSymbol(cast(void**)&nk_style_item_image,"nk_style_item_image");
     lib.bindSymbol(cast(void**)&nk_style_item_color,"nk_style_item_color");
+    lib.bindSymbol(cast(void**)&nk_style_item_nine_slice,"nk_style_item_nine_slice");
+
     lib.bindSymbol(cast(void**)&nk_style_item_hide,"nk_style_item_hide");
 
     loadedVersion = NuklearSupport.Nuklear4;

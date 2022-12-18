@@ -10,6 +10,7 @@
 #define NK_BUTTON_TRIGGER_ON_RELEASE
 #define NK_ZERO_COMMAND_MEMORY
 #define NK_UINT_DRAW_INDEX
+#define NK_BOOL char
 
 //#define NK_INPUT_MAX 512
 

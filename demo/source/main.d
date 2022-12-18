@@ -156,13 +156,15 @@ nk_sdl_device_destroy()
     nk_buffer_free(&dev.cmds);
 }
 
+nk_vec2 scale;
+int width, height;
+const(nk_draw_index) *offset = null;
+
 void
 nk_sdl_render(nk_anti_aliasing AA, int max_vertex_buffer, int max_element_buffer)
 {
     nk_sdl_device *dev = &sdl.ogl;
-    int width, height;
     int display_width, display_height;
-    nk_vec2 scale;
     GLfloat[4][4] ortho = [
         [2.0f, 0.0f, 0.0f, 0.0f],
         [0.0f,-2.0f, 0.0f, 0.0f],
@@ -196,7 +198,7 @@ nk_sdl_render(nk_anti_aliasing AA, int max_vertex_buffer, int max_element_buffer
         const(nk_draw_command) *cmd;
         void *vertices;
         void *elements;
-        const(nk_draw_index) *offset = null;
+        offset = null;
         nk_buffer vbuf;
         nk_buffer ebuf;
 
@@ -224,7 +226,7 @@ nk_sdl_render(nk_anti_aliasing AA, int max_vertex_buffer, int max_element_buffer
             config.vertex_layout = vertex_layout.ptr;
             config.vertex_size = nk_sdl_vertex.sizeof;
             config.vertex_alignment = nk_sdl_vertex.alignof;
-            config.null_ = dev.null_;
+            config.tex_null = dev.null_;
             config.circle_segment_count = 22;
             config.curve_segment_count = 22;
             config.arc_segment_count = 22;
@@ -335,7 +337,7 @@ nk_sdl_handle_event(SDL_Event *evt)
     }
     if (evt.type == SDL_KEYUP || evt.type == SDL_KEYDOWN) {
         /* key events */
-        int down = evt.type == SDL_KEYDOWN;
+        bool down = evt.type == SDL_KEYDOWN;
         const Uint8* state = SDL_GetKeyboardState(null);
         SDL_Keycode sym = evt.key.keysym.sym;
         if (sym == SDLK_RSHIFT || sym == SDLK_LSHIFT)
@@ -388,7 +390,7 @@ nk_sdl_handle_event(SDL_Event *evt)
         return 1;
     } else if (evt.type == SDL_MOUSEBUTTONDOWN || evt.type == SDL_MOUSEBUTTONUP) {
         /* mouse button */
-        int down = evt.type == SDL_MOUSEBUTTONDOWN;
+        bool down = evt.type == SDL_MOUSEBUTTONDOWN;
         const int x = evt.button.x, y = evt.button.y;
         if (evt.button.button == SDL_BUTTON_LEFT) {
             if (evt.button.clicks > 1)
@@ -428,7 +430,7 @@ void nk_sdl_shutdown()
     memset(&sdl, 0, sdl.sizeof);
 }
 
-int main(string[] args)
+extern(C) int main()
 {
     int win_width= 1200;
     int win_height = 800;

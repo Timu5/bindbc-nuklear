@@ -64,7 +64,8 @@ struct nk_rect { float x,y,w,h; }
 struct nk_recti { short x,y,w,h; }
 alias nk_glyph = char[NK_UTF_SIZE];
 union nk_handle { void *ptr; int id; }
-struct nk_image { nk_handle handle; short w,h; short[4] region; }
+struct nk_image { nk_handle handle; short w,h; ushort[4] region; }
+struct nk_nine_slice { nk_image img; ushort l, t, r, b;};
 struct nk_cursor { nk_image img; nk_vec2 size, offset; }
 struct nk_scroll { ushort x, y; }
 
@@ -84,7 +85,7 @@ enum nk_tree_type       { NK_TREE_NODE, NK_TREE_TAB };
 extern(C) @nogc nothrow {
     alias nk_plugin_alloc = void* function(nk_handle, void *old, nk_size);
     alias nk_plugin_free = void function(nk_handle, void *old);
-    alias nk_plugin_filter = int function(const(nk_text_edit)*, nk_rune unicode);
+    alias nk_plugin_filter = bool function(const(nk_text_edit)*, nk_rune unicode);
     alias nk_plugin_paste = void function(nk_handle, nk_text_edit*);
     alias nk_plugin_copy = void function(nk_handle, const(char)*, int len);
 }
@@ -182,7 +183,7 @@ struct nk_convert_config {
     uint circle_segment_count; /* number of segments used for circles: default to 22 */
     uint arc_segment_count; /* number of segments used for arcs: default to 22 */
     uint curve_segment_count; /* number of segments used for curves: default to 22 */
-    nk_draw_null_texture null_; /* handle to texture with a white pixel for shape drawing */
+    nk_draw_null_texture tex_null; /* handle to texture with a white pixel for shape drawing */
     const(nk_draw_vertex_layout_element) *vertex_layout; /* describes the vertex output format and packing */
     nk_size vertex_size; /* sizeof one vertex for vertex packing */
     nk_size vertex_alignment; /* vertex alignment: Can be obtained by NK_ALIGNOF */
@@ -506,7 +507,7 @@ enum nk_buffer_allocation_type {
 }
 
 struct nk_buffer_marker {
-    int active;
+    bool active;
     nk_size offset;
 }
 
@@ -801,7 +802,7 @@ struct nk_command_buffer {
 // INPUT
 
 struct nk_mouse_button {
-    int down;
+    bool down;
     uint clicked;
     nk_vec2 clicked_pos;
 }
@@ -809,6 +810,9 @@ struct nk_mouse_button {
 struct nk_mouse {
     nk_mouse_button[nk_buttons.NK_BUTTON_MAX] buttons;
     nk_vec2 pos;
+    version(NK_BUTTON_TRIGGER_ON_RELEASE){
+        nk_vec2 down_pos;
+    }
     nk_vec2 prev;
     nk_vec2 delta;
     nk_vec2 scroll_delta;
@@ -818,7 +822,7 @@ struct nk_mouse {
 }
 
 struct nk_key {
-    int down;
+    bool down;
     uint clicked;
 }
 
@@ -944,12 +948,14 @@ else
 
 enum nk_style_item_type {
     NK_STYLE_ITEM_COLOR,
-    NK_STYLE_ITEM_IMAGE
+    NK_STYLE_ITEM_IMAGE,
+    NK_STYLE_ITEM_NINE_SLICE
 }
 
 union nk_style_item_data {
     nk_image image;
     nk_color color;
+    nk_nine_slice slice;
 }
 
 struct nk_style_item {
@@ -1452,7 +1458,7 @@ struct nk_popup_buffer {
     nk_size parent;
     nk_size last;
     nk_size end;
-    int active;
+    bool active;
 }
 
 struct nk_menu_state {
@@ -1506,7 +1512,7 @@ struct nk_popup_state {
     nk_panel_type type;
     nk_popup_buffer buf;
     nk_hash name;
-    int active;
+    bool active;
     uint combo_count;
     uint con_count, con_old;
     uint active_con;
