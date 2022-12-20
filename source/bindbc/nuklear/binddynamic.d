@@ -392,8 +392,6 @@ extern(C) @nogc nothrow {
     alias pnk_subimage_ptr = nk_image function(void*, ushort w, ushort h, nk_rect sub_region);
     alias pnk_subimage_id = nk_image function(int, ushort w, ushort h, nk_rect sub_region);
     alias pnk_subimage_handle = nk_image function(nk_handle, ushort w, ushort h, nk_rect sub_region);
-    // slice here
-    
     alias pnk_nine_slice_handle = nk_nine_slice function(nk_handle, nk_ushort l, nk_ushort t, nk_ushort r, nk_ushort b);
     alias pnk_nine_slice_ptr = nk_nine_slice function(void*, nk_ushort l, nk_ushort t, nk_ushort r, nk_ushort b);
     alias pnk_nine_slice_id = nk_nine_slice function(int, nk_ushort l, nk_ushort t, nk_ushort r, nk_ushort b);
@@ -401,9 +399,6 @@ extern(C) @nogc nothrow {
     alias pnk_sub9slice_ptr = nk_nine_slice function(void*, nk_ushort w, nk_ushort h, nk_rect sub_region, nk_ushort l, nk_ushort t, nk_ushort r, nk_ushort b);
     alias pnk_sub9slice_id = nk_nine_slice function(int, nk_ushort w, nk_ushort h, nk_rect sub_region, nk_ushort l, nk_ushort t, nk_ushort r, nk_ushort b);
     alias pnk_sub9slice_handle = nk_nine_slice function(nk_handle, nk_ushort w, nk_ushort h,  nk_rect sub_region, nk_ushort l, nk_ushort t, nk_ushort r, nk_ushort b);
-
-
-
     alias pnk_murmur_hash = nk_hash function(const(void)* key, int len, nk_hash seed);
     alias pnk_triangle_from_direction = void function(nk_vec2* result, nk_rect r, float pad_x, float pad_y, nk_heading);
     alias pnk_vec2 = nk_vec2 function(float x, float y);
@@ -958,9 +953,6 @@ extern(C) @nogc nothrow {
         pnk_subimage_ptr nk_subimage_ptr;
         pnk_subimage_id nk_subimage_id;
         pnk_subimage_handle nk_subimage_handle;
-
-        // slice
-
         pnk_nine_slice_handle nk_nine_slice_handle;
         pnk_nine_slice_ptr nk_nine_slice_ptr;
         pnk_nine_slice_id nk_nine_slice_id;
@@ -968,9 +960,6 @@ extern(C) @nogc nothrow {
         pnk_sub9slice_ptr nk_sub9slice_ptr;
         pnk_sub9slice_id nk_sub9slice_id;
         pnk_sub9slice_handle nk_sub9slice_handle;
-
-
-
         pnk_murmur_hash nk_murmur_hash;
         pnk_triangle_from_direction nk_triangle_from_direction;
         pnk_vec2 nk_vec2_;
@@ -1224,12 +1213,14 @@ NuklearSupport loadNuklear()
         const(char)[][1] libNames = ["nuklear.dll"];
     }
     else version(OSX) {
-        const(char)[][1] libNames = ["nuklear.dylib"];
+        const(char)[][2] libNames = ["nuklear.dylib", "nuklear.dylib"];
     }
     else version(Posix) {
-        const(char)[][2] libNames = [
+        const(char)[][4] libNames = [
             "nuklear.so",
             "/usr/local/lib/nuklear.so",
+            "libnuklear.so",
+            "/usr/local/lib/libnuklear.so",
         ];
     }
     else static assert(0, "bindbc-nuklear is not yet supported on this platform.");
@@ -1609,8 +1600,7 @@ NuklearSupport loadNuklear(const(char)* libName)
     lib.bindSymbol(cast(void**)&nk_image_is_subimage,"nk_image_is_subimage");
     lib.bindSymbol(cast(void**)&nk_subimage_ptr,"nk_subimage_ptr");
     lib.bindSymbol(cast(void**)&nk_subimage_id,"nk_subimage_id");
-    lib.bindSymbol(cast(void**)&nk_subimage_handle,"nk_subimage_handle");
-    
+    lib.bindSymbol(cast(void**)&nk_subimage_handle,"nk_subimage_handle");   
     lib.bindSymbol(cast(void**)&nk_nine_slice_handle, "nk_nine_slice_handle");
     lib.bindSymbol(cast(void**)&nk_nine_slice_ptr, "nk_nine_slice_ptr");
     lib.bindSymbol(cast(void**)&nk_nine_slice_id, "nk_nine_slice_id");
@@ -1618,8 +1608,6 @@ NuklearSupport loadNuklear(const(char)* libName)
     lib.bindSymbol(cast(void**)&nk_sub9slice_ptr, "nk_sub9slice_ptr");
     lib.bindSymbol(cast(void**)&nk_sub9slice_id, "nk_sub9slice_id");
     lib.bindSymbol(cast(void**)&nk_sub9slice_handle, "nk_sub9slice_handle");
-    
-    
     lib.bindSymbol(cast(void**)&nk_murmur_hash,"nk_murmur_hash");
     lib.bindSymbol(cast(void**)&nk_triangle_from_direction,"nk_triangle_from_direction");
     lib.bindSymbol(cast(void**)&nk_vec2_,"nk_vec2");
