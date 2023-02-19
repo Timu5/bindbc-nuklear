@@ -50,7 +50,7 @@ alias nk_uint = uint;
 alias nk_size = size_t;
 alias nk_ptr = size_t;
 
-alias nk_hash = ulong;
+alias nk_hash = uint;
 alias nk_flags = uint;
 alias nk_rune = uint;
 alias nk_float = float;
@@ -67,7 +67,7 @@ union nk_handle { void *ptr; int id; }
 struct nk_image { nk_handle handle; short w,h; ushort[4] region; }
 struct nk_nine_slice { nk_image img; ushort l, t, r, b;};
 struct nk_cursor { nk_image img; nk_vec2 size, offset; }
-struct nk_scroll { ushort x, y; }
+struct nk_scroll { uint x, y; }
 
 enum nk_heading         { NK_UP, NK_RIGHT, NK_DOWN, NK_LEFT };
 enum nk_button_behavior { NK_BUTTON_DEFAULT, NK_BUTTON_REPEATER };
